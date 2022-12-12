@@ -14,16 +14,17 @@ import java.io.IOException;
 public class OutputWriter {
     private static ArrayNode output;
 
+    public static void config() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        OutputWriter.output = objectMapper.createArrayNode();
+    }
     public static void addToOutput(Output output) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        if (OutputWriter.output == null) {
-            OutputWriter.output = objectMapper.createArrayNode();
-        }
 
         ObjectNode objectNode = objectMapper.createObjectNode();
         objectNode.put("error", output.getError());
-        objectNode.put("currentMovieList", objectMapper.writeValueAsString(output.getCurrentMovieList()));
-        objectNode.put("currentUser", objectMapper.writeValueAsString(output.getCurrentUser()));
+        objectNode.putPOJO("currentMovieList", objectMapper);
+        objectNode.putPOJO("currentUser", output.getCurrentUser());
 
         OutputWriter.output.add(objectNode);
     }
@@ -32,5 +33,6 @@ public class OutputWriter {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(outputFileName), output);
+        System.out.println("[WRITE]");
     }
 }
