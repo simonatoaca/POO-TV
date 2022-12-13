@@ -1,15 +1,17 @@
 package actions;
 
 import actionutils.Filter;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import users.Credentials;
+import webpages.Page;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class Action {
+public abstract class Action implements PageVisitor {
     protected String type;
     protected String page;
     protected String movie;

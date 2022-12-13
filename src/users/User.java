@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,13 @@ public class User {
     protected List<Movie> watchedMovies;
     protected List<Movie> likedMovies;
     protected List<Movie> ratedMovies;
+
+    public User() {
+        purchasedMovies = new ArrayList<>();
+        watchedMovies = new ArrayList<>();
+        likedMovies = new ArrayList<>();
+        ratedMovies = new ArrayList<>();
+    }
 
     public void purchaseMovie(Movie movie) {
         tokensCount = tokensCount - 2;

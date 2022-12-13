@@ -1,12 +1,11 @@
 package fileio;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import movies.Movie;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,13 @@ public class OutputWriter {
 
         ObjectNode objectNode = objectMapper.createObjectNode();
         objectNode.put("error", output.getError());
-        objectNode.putPOJO("currentMovieList", objectMapper);
+
+        ArrayNode currentMoviesList = objectMapper.createArrayNode();
+        for (Movie movie : output.getCurrentMoviesList()) {
+            currentMoviesList.addPOJO(movie);
+        }
+
+        objectNode.putPOJO("currentMoviesList", currentMoviesList);
         objectNode.putPOJO("currentUser", output.getCurrentUser());
 
         OutputWriter.output.add(objectNode);
@@ -33,6 +38,5 @@ public class OutputWriter {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(outputFileName), output);
-        System.out.println("[WRITE]");
     }
 }

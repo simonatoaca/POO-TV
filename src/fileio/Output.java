@@ -12,17 +12,19 @@ import java.util.List;
 @Setter
 public class Output {
     private String error;
-    private List<Movie> currentMovieList;
+    private List<Movie> currentMoviesList;
     private User currentUser;
 
     public Output() {
-        this.currentMovieList = StreamingService.getCurrentMovieList();
+        System.out.println("[SUCCESS]");
+        this.currentMoviesList = StreamingService.getCurrentMovieList();
         this.currentUser = StreamingService.getCurrentUser();
     }
 
     public Output(String error) {
+        System.out.println("[ERROR]");
         this.error = error;
-        this.currentMovieList = StreamingService.getCurrentMovieList();
+        this.currentMoviesList = StreamingService.getCurrentMovieList();
         this.currentUser = StreamingService.getCurrentUser();
     }
 }

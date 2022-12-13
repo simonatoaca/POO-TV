@@ -1,6 +1,7 @@
 package fileio;
 
 import actions.Action;
+import actions.ActionInput;
 import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
@@ -14,7 +15,7 @@ import java.util.List;
 public class Input {
     private List<User> users;
     private List<Movie> movies;
-    private List<Action> actions;
+    private List<ActionInput> actions;
 
     @Override
     public String toString() {

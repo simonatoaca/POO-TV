@@ -28,7 +28,6 @@ public final class InputHandler {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         input = objectMapper.readValue(new File(fileName), Input.class);
-        System.out.println(input);
     }
 
     public void loadInputIntoDatabase() {
@@ -52,7 +51,7 @@ public final class InputHandler {
 
     public List<Action> getActions() {
         List<Action> actions = new ArrayList<>();
-        for (Action action : input.getActions()) {
+        for (ActionInput action : input.getActions()) {
             if (Objects.equals(action.getType(), "change page")) {
                 actions.add(new ChangePageAction(action));
             } else {
@@ -64,10 +63,10 @@ public final class InputHandler {
                         actions.add(new RegisterAction(action));
                     }
                     case "search" -> {
-                        actions.add(new SearchAction());
+                        actions.add(new SearchAction(action));
                     }
                     case "filter" -> {
-                        actions.add(new FilterAction());
+                        actions.add(new FilterAction(action));
                     }
                     case "buy tokens" -> {
                         actions.add(new BuyTokensAction());
