@@ -30,17 +30,33 @@ public class ChangePageAction extends Action
             System.out.println("[CHANGE PAGE] to " + this.page);
 
             if (Objects.equals(this.page, "see details")) {
-                Movie movie = Database.getInstance().getMovie(this.movie);
-                ((SeeDetails)StreamingService.getCurrentPage()).setMovie(movie);
+                // Movie to "see details" on
+                Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
+
+                // Get the available movies
+                List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
+                if (StreamingService.getCurrentUser() != null) {
+                    String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
+                    moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
+                }
+
+                // If the movie is available show it
+                if (moviesAvailable.contains(movieToBeSeen)) {
+                    moviesAvailable.removeIf(movie -> !Objects.equals(movie.getName(), this.movie));
+                    StreamingService.setCurrentMovieList(moviesAvailable);
+                    OutputWriter.addToOutput(new Output());
+                } else {
+                    OutputWriter.addToOutput(new Output("Error"));
+                }
             }
 
-            if (Objects.equals(this.page, "movies")
-                    || Objects.equals(this.page, "see details")) {
-
+            if (Objects.equals(this.page, "movies")) {
                 // Remove movies which are banned in the country of the current user
                 List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
-                String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
-                moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
+                if (StreamingService.getCurrentUser() != null) {
+                    String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
+                    moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
+                }
 
                 StreamingService.setCurrentMovieList(moviesAvailable);
                 OutputWriter.addToOutput(new Output());
@@ -52,12 +68,16 @@ public class ChangePageAction extends Action
         if (Objects.equals(this.page, "logout")) {
             System.out.println("[LOGOUT]");
             StreamingService.setCurrentPage(new HomepageUnauthorized());
+            StreamingService.setCurrentMovieList(new ArrayList<>());
             StreamingService.setCurrentUser(null);
             return;
         }
 
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
+        if ((Objects.equals(this.page, "login") || Objects.equals(this.page, "register")) &&
+        StreamingService.getCurrentUser() == null) {
+            StreamingService.setCurrentPage(new HomepageUnauthorized());
+        }
+
         OutputWriter.addToOutput(new Output("Error"));
     }
 

@@ -1,5 +1,6 @@
 package actions;
 
+import actionutils.Contains;
 import actionutils.Filter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fileio.Output;
@@ -7,6 +8,8 @@ import fileio.OutputWriter;
 import movies.Movie;
 import streamingservice.StreamingService;
 import webpages.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,6 +58,14 @@ public class FilterAction extends Action
     }
 
     public void execute(MoviePage page) throws JsonProcessingException {
+        List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
+        if (StreamingService.getCurrentUser() != null) {
+            String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
+            moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
+        }
+
+        StreamingService.setCurrentMovieList(moviesAvailable);
+
         List<Movie> currentMovieList = StreamingService.getCurrentMovieList();
         if (this.filters.getSort() != null) {
             switch (this.filters.getSort().getRating()) {
@@ -76,13 +87,18 @@ public class FilterAction extends Action
             }
         }
 
-        if (this.filters.getContains() != null) {
-            for (String actor : this.filters.getContains().getActors()) {
-                currentMovieList.removeIf(movie -> !movie.getActors().contains(actor));
+        Contains filterContains = this.filters.getContains();
+        if (filterContains != null) {
+            if (filterContains.getActors() != null) {
+                for (String actor : this.filters.getContains().getActors()) {
+                    currentMovieList.removeIf(movie -> !movie.getActors().contains(actor));
+                }
             }
 
-            for (String genre : this.filters.getContains().getGenre()) {
-                currentMovieList.removeIf(movie -> !movie.getGenres().contains(genre));
+            if (filterContains.getGenre() != null) {
+                for (String genre : this.filters.getContains().getGenre()) {
+                    currentMovieList.removeIf(movie -> !movie.getGenres().contains(genre));
+                }
             }
         }
 

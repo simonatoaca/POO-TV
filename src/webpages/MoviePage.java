@@ -11,7 +11,7 @@ import java.util.*;
 @Getter
 @Setter
 public class MoviePage extends Page {
-    private final Set<String> subPages = new HashSet<>(Set.of("movies", "see details", "logout"));
+    private final Set<String> subPages = new HashSet<>(Set.of("movies", "see details"));
 
     @Override
     public void accept(Action action) throws JsonProcessingException {

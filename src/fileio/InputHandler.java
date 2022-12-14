@@ -69,7 +69,7 @@ public final class InputHandler {
                         actions.add(new FilterAction(action));
                     }
                     case "buy tokens" -> {
-                        actions.add(new BuyTokensAction());
+                        actions.add(new BuyTokensAction(action));
                     }
                     case "buy premium account" -> {
                         actions.add(new BuyPremiumAccAction());

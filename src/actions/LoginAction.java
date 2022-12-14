@@ -34,7 +34,6 @@ public class LoginAction extends Action
             }
         }
 
-        StreamingService.setCurrentUser(null);
         Page nextPage = Database.getInstance().getPage("homepage unauth");
         StreamingService.setCurrentPage(nextPage);
         OutputWriter.addToOutput(new Output("Error"));
@@ -50,7 +49,6 @@ public class LoginAction extends Action
     @Override
     public void execute(HomepageAuthorized page) throws JsonProcessingException {
         StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 

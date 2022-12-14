@@ -6,6 +6,7 @@ import movies.Movie;
 import streamingservice.StreamingService;
 import users.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -24,7 +25,7 @@ public class Output {
     public Output(String error) {
         System.out.println("[ERROR]");
         this.error = error;
-        this.currentMoviesList = StreamingService.getCurrentMovieList();
-        this.currentUser = StreamingService.getCurrentUser();
+        this.currentMoviesList = new ArrayList<>();
+        this.currentUser = null;
     }
 }

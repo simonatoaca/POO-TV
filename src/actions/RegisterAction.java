@@ -21,20 +21,23 @@ public class RegisterAction extends Action
 
     @Override
     public void execute(HomepageUnauthorized page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
         StreamingService.setCurrentPage(new HomepageUnauthorized());
+        StreamingService.setCurrentUser(null);
+        OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(HomepageAuthorized page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
         StreamingService.setCurrentPage(new HomepageUnauthorized());
+        StreamingService.setCurrentUser(null);
+        OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(Login page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
         StreamingService.setCurrentPage(new HomepageUnauthorized());
+        StreamingService.setCurrentUser(null);
+        OutputWriter.addToOutput(new Output("Error"));
     }
 
     public void execute(Register page) throws JsonProcessingException {

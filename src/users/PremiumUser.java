@@ -18,7 +18,9 @@ public class PremiumUser extends User {
     }
 
     public PremiumUser(User user) {
+        System.out.println("[BUY PREMIUM]");
         credentials = user.getCredentials();
+        credentials.setAccountType("premium");
         tokensCount = user.getTokensCount();
         numFreePremiumMovies = user.getNumFreePremiumMovies();
         purchasedMovies = user.getPurchasedMovies();

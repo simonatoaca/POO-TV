@@ -12,43 +12,31 @@ public class RateAction extends Action
                 implements PageVisitor {
     @Override
     public void execute(HomepageUnauthorized page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(HomepageAuthorized page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(Login page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(Register page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(Logout page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(MoviePage page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
@@ -56,20 +44,21 @@ public class RateAction extends Action
         User currentUser = StreamingService.getCurrentUser();
         Movie movie = page.getMovie();
 
-        if (currentUser.getWatchedMovies().contains(movie)) {
+        if (currentUser == null) {
+            OutputWriter.addToOutput(new Output("Error"));
+            return;
+        }
+
+        if (currentUser.getWatchedMovies().contains(movie) && movie != null) {
             currentUser.getRatedMovies().add(movie);
             movie.addRating(this.getRate());
         } else {
-            StreamingService.setCurrentPage(new HomepageUnauthorized());
-            StreamingService.setCurrentUser(null);
             OutputWriter.addToOutput(new Output("Error"));
         }
     }
 
     @Override
     public void execute(Upgrades page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 }

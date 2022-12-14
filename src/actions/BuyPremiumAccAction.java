@@ -10,52 +10,39 @@ import webpages.*;
 
 public class BuyPremiumAccAction extends Action
         implements PageVisitor {
+
     @Override
     public void execute(HomepageUnauthorized page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(HomepageAuthorized page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(Login page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(Register page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(Logout page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(MoviePage page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
     public void execute(SeeDetails page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
-        StreamingService.setCurrentUser(null);
         OutputWriter.addToOutput(new Output("Error"));
     }
 
