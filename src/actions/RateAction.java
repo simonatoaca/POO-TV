@@ -15,7 +15,7 @@ public class RateAction extends Action
                 implements PageVisitor {
 
     public RateAction(ActionInput action) {
-        this.movie = action.getMovie();
+        this.rate = action.getRate();
     }
 
     @Override
@@ -49,15 +49,16 @@ public class RateAction extends Action
     }
 
     public void execute(SeeDetails page) throws JsonProcessingException {
+        System.out.println("[RATE]");
         User currentUser = StreamingService.getCurrentUser();
 
-        if (currentUser == null || this.movie == null) {
+        if (currentUser == null || page.getMovie() == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
 
         // Check if the user watched the movie
-        Movie movie = Database.getInstance().getMovie(this.movie);
+        Movie movie = page.getMovie();
         int idx = Collections.binarySearch(currentUser.getWatchedMovies(), movie,
                 (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName()));
 

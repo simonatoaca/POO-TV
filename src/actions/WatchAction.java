@@ -53,13 +53,13 @@ public class WatchAction extends Action
         System.out.println("[WATCH]");
         User currentUser = StreamingService.getCurrentUser();
 
-        if (currentUser == null || this.movie == null) {
+        if (currentUser == null || page.getMovie() == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
 
         // Check if the user purchased the movie
-        Movie movie = Database.getInstance().getMovie(this.movie);
+        Movie movie = page.getMovie();
         int idx = Collections.binarySearch(currentUser.getPurchasedMovies(), movie,
                 (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName()));
 

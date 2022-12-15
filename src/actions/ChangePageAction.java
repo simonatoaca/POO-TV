@@ -26,7 +26,8 @@ public class ChangePageAction extends Action
         }
 
         if (hasThisSubPage) {
-            StreamingService.setCurrentPage(Database.getInstance().getPage(this.page));
+            Page nextPage = Database.getInstance().getPage(this.page);
+            StreamingService.setCurrentPage(nextPage);
             System.out.println("[CHANGE PAGE] to " + this.page);
 
             if (Objects.equals(this.page, "see details")) {
@@ -44,8 +45,10 @@ public class ChangePageAction extends Action
                 if (moviesAvailable.contains(movieToBeSeen)) {
                     moviesAvailable.removeIf(movie -> !Objects.equals(movie.getName(), this.movie));
                     StreamingService.setCurrentMovieList(moviesAvailable);
+                    ((SeeDetails)nextPage).setMovie(movieToBeSeen);
                     OutputWriter.addToOutput(new Output());
                 } else {
+                    ((SeeDetails)nextPage).setMovie(null);
                     OutputWriter.addToOutput(new Output("Error"));
                 }
             }

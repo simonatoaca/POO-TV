@@ -47,16 +47,16 @@ public class PurchaseAction extends Action
     }
 
     public void execute(SeeDetails page) throws JsonProcessingException {
-        System.out.println("[PURCHASE]");
+        System.out.println("[PURCHASE]" + page.getMovie());
 
         User currentUser = StreamingService.getCurrentUser();
 
-        if (currentUser == null || this.movie == null) {
+        if (currentUser == null || page.getMovie() == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
 
-        currentUser.purchaseMovie(Database.getInstance().getMovie(this.movie));
+        currentUser.purchaseMovie(page.getMovie());
         OutputWriter.addToOutput(new Output());
     }
 

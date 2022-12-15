@@ -52,6 +52,7 @@ public class Movie {
         numRatings++;
         totalScore += rating;
         this.rating = (double)totalScore / (double)numRatings;
+        System.out.println("added rating " + this.rating);
     }
 
     @Override

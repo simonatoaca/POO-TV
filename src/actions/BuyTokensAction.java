@@ -50,6 +50,7 @@ public class BuyTokensAction extends Action
     }
 
     public void execute(Upgrades page) throws JsonProcessingException {
+        System.out.println("[BUY TOKENS]");
         User currentUser = StreamingService.getCurrentUser();
         currentUser.buyTokens(this.count);
     }

@@ -58,6 +58,7 @@ public class FilterAction extends Action
     }
 
     public void execute(MoviePage page) throws JsonProcessingException {
+        System.out.println("[FILTER]");
         List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
         if (StreamingService.getCurrentUser() != null) {
             String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();

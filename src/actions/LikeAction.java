@@ -27,7 +27,6 @@ public class LikeAction extends Action
             return;
         }
 
-
         // Check if the user watched the movie
         Movie movie = Database.getInstance().getMovie(this.movie);
         int idx = Collections.binarySearch(currentUser.getWatchedMovies(), movie,

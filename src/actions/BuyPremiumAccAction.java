@@ -48,6 +48,7 @@ public class BuyPremiumAccAction extends Action
     }
 
     public void execute(Upgrades page) {
+        System.out.println("[BUY PREMIUM]");
         User currentUser = StreamingService.getCurrentUser();
         String userName = currentUser.getCredentials().getName();
 

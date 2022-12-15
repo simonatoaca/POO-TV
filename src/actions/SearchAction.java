@@ -41,6 +41,8 @@ public class SearchAction extends Action
     }
 
     public void execute(MoviePage page) throws JsonProcessingException {
+        System.out.println("[SEARCH]");
+
         List<Movie> currentMovieList = StreamingService.getCurrentMovieList();
         currentMovieList.removeIf(movie -> !movie.getName().startsWith(this.startsWith));
 
