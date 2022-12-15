@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import movies.Movie;
+import users.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +26,16 @@ public class OutputWriter {
 
         ArrayNode currentMoviesList = objectMapper.createArrayNode();
         for (Movie movie : output.getCurrentMoviesList()) {
-            currentMoviesList.addPOJO(movie);
+            currentMoviesList.addPOJO(new Movie(movie));
         }
 
         objectNode.putPOJO("currentMoviesList", currentMoviesList);
-        objectNode.putPOJO("currentUser", output.getCurrentUser());
+
+        User user = null;
+        if (output.getCurrentUser() != null) {
+            user = new User(output.getCurrentUser());
+        }
+        objectNode.putPOJO("currentUser", user);
 
         OutputWriter.output.add(objectNode);
     }

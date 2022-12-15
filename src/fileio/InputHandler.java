@@ -75,16 +75,16 @@ public final class InputHandler {
                         actions.add(new BuyPremiumAccAction());
                     }
                     case "purchase" -> {
-                        actions.add(new PurchaseAction());
+                        actions.add(new PurchaseAction(action));
                     }
                     case "watch" -> {
-                        actions.add(new WatchAction());
+                        actions.add(new WatchAction(action));
                     }
                     case "like" -> {
-                        actions.add(new LikeAction());
+                        actions.add(new LikeAction(action));
                     }
                     case "rate" -> {
-                        actions.add(new RateAction());
+                        actions.add(new RateAction(action));
                     }
                 }
             }

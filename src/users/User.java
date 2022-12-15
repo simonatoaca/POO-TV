@@ -27,6 +27,28 @@ public class User {
         ratedMovies = new ArrayList<>();
     }
 
+    public User(User user) {
+        this.credentials = new Credentials(user.getCredentials());
+        this.tokensCount = user.getTokensCount();
+        this.numFreePremiumMovies = user.getNumFreePremiumMovies();
+        this.purchasedMovies = new ArrayList<>();
+        this.likedMovies = new ArrayList<>();
+        this.watchedMovies = new ArrayList<>();
+        this.ratedMovies = new ArrayList<>();
+
+        for (Movie movie : user.getPurchasedMovies())
+            this.purchasedMovies.add(new Movie(movie));
+
+        for (Movie movie : user.getWatchedMovies())
+            this.watchedMovies.add(new Movie(movie));
+
+        for (Movie movie : user.getLikedMovies())
+            this.likedMovies.add(new Movie(movie));
+
+        for (Movie movie : user.getRatedMovies())
+            this.ratedMovies.add(new Movie(movie));
+    }
+
     public void purchaseMovie(Movie movie) {
         tokensCount = tokensCount - 2;
         purchasedMovies.add(movie);

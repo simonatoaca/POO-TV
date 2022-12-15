@@ -11,6 +11,11 @@ import webpages.*;
 
 public class PurchaseAction extends Action
                 implements PageVisitor {
+
+    public PurchaseAction(ActionInput action) {
+        this.movie = action.getMovie();
+    }
+
     @Override
     public void execute(HomepageUnauthorized page) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
@@ -42,17 +47,17 @@ public class PurchaseAction extends Action
     }
 
     public void execute(SeeDetails page) throws JsonProcessingException {
+        System.out.println("[PURCHASE]");
+
         User currentUser = StreamingService.getCurrentUser();
-        if (currentUser == null) {
+
+        if (currentUser == null || this.movie == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
-        if (page.getMovie() != null) {
-            currentUser.purchaseMovie(page.getMovie());
-            OutputWriter.addToOutput(new Output());
-        } else {
-            OutputWriter.addToOutput(new Output("Error"));
-        }
+
+        currentUser.purchaseMovie(Database.getInstance().getMovie(this.movie));
+        OutputWriter.addToOutput(new Output());
     }
 
     @Override

@@ -31,6 +31,19 @@ public class Movie {
         countriesBanned = new ArrayList<>();
     }
 
+    public Movie(Movie movie) {
+        this.name = movie.name;
+        this.rating = movie.rating;
+        this.year = movie.year;
+        this.duration = movie.duration;
+        this.numLikes = movie.numLikes;
+        this.numRatings = movie.numRatings;
+        this.totalScore = movie.totalScore;
+        this.genres = new ArrayList<>(movie.genres);
+        this.actors = new ArrayList<>(movie.actors);
+        this.countriesBanned = new ArrayList<>(movie.countriesBanned);
+    }
+
     public void incrementNumLikes() {
         numLikes++;
     }

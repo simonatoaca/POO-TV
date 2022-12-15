@@ -9,10 +9,15 @@ import streamingservice.StreamingService;
 import users.User;
 import webpages.*;
 
-import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class WatchAction extends Action
     implements PageVisitor {
+
+    public WatchAction(ActionInput action) {
+        this.movie = action.getMovie();
+    }
 
     @Override
     public void execute(HomepageUnauthorized page) throws JsonProcessingException {
@@ -45,16 +50,26 @@ public class WatchAction extends Action
     }
 
     public void execute(SeeDetails page) throws JsonProcessingException {
+        System.out.println("[WATCH]");
         User currentUser = StreamingService.getCurrentUser();
-        Movie movie = page.getMovie();
-        if (currentUser == null || movie == null) {
+
+        if (currentUser == null || this.movie == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
 
-        if (currentUser.getPurchasedMovies().contains(movie)) {
+        // Check if the user purchased the movie
+        Movie movie = Database.getInstance().getMovie(this.movie);
+        int idx = Collections.binarySearch(currentUser.getPurchasedMovies(), movie,
+                (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName()));
+
+        if (idx >= 0) {
             currentUser.getWatchedMovies().add(movie);
+            OutputWriter.addToOutput(new Output());
+            return;
         }
+
+        OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override

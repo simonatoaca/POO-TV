@@ -10,23 +10,37 @@ import users.User;
 import webpages.*;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class LikeAction extends Action
                     implements PageVisitor{
-    public void execute(Movie movie) throws IOException {
+
+    public LikeAction(ActionInput action) {
+        this.movie = action.getMovie();
+    }
+    public void execute(SeeDetails page) throws JsonProcessingException {
+        System.out.println("[LIKE]");
         User currentUser = StreamingService.getCurrentUser();
 
-        if (currentUser == null) {
+        if (currentUser == null || this.movie == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
 
-        if (currentUser.getWatchedMovies().contains(movie)) {
+
+        // Check if the user watched the movie
+        Movie movie = Database.getInstance().getMovie(this.movie);
+        int idx = Collections.binarySearch(currentUser.getWatchedMovies(), movie,
+                (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName()));
+
+        if (idx >= 0) {
             currentUser.getLikedMovies().add(movie);
             movie.incrementNumLikes();
-        } else {
-            OutputWriter.addToOutput(new Output("Error"));
+            OutputWriter.addToOutput(new Output());
+            return;
         }
+
+        OutputWriter.addToOutput(new Output("Error"));
     }
 
     @Override
@@ -56,11 +70,6 @@ public class LikeAction extends Action
 
     @Override
     public void execute(MoviePage page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(SeeDetails page) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
