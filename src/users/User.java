@@ -1,5 +1,6 @@
 package users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,9 @@ public class User {
     protected List<Movie> likedMovies;
     protected List<Movie> ratedMovies;
 
+    @JsonIgnore
+    protected static final int FREE_PREMIUM_MOVIES = 15;
+
     public User() {
         purchasedMovies = new ArrayList<>();
         watchedMovies = new ArrayList<>();
@@ -27,7 +31,12 @@ public class User {
         ratedMovies = new ArrayList<>();
     }
 
-    public User(User user) {
+    /**
+     * Deep copies the user;
+     * Used for output
+     * @param user the user that is copied
+     */
+    public User(final User user) {
         this.credentials = new Credentials(user.getCredentials());
         this.tokensCount = user.getTokensCount();
         this.numFreePremiumMovies = user.getNumFreePremiumMovies();
@@ -36,48 +45,54 @@ public class User {
         this.watchedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
 
-        for (Movie movie : user.getPurchasedMovies())
+        for (Movie movie : user.getPurchasedMovies()) {
             this.purchasedMovies.add(new Movie(movie));
+        }
 
-        for (Movie movie : user.getWatchedMovies())
+        for (Movie movie : user.getWatchedMovies()) {
             this.watchedMovies.add(new Movie(movie));
+        }
 
-        for (Movie movie : user.getLikedMovies())
+        for (Movie movie : user.getLikedMovies()) {
             this.likedMovies.add(new Movie(movie));
+        }
 
-        for (Movie movie : user.getRatedMovies())
+        for (Movie movie : user.getRatedMovies()) {
             this.ratedMovies.add(new Movie(movie));
+        }
     }
 
-    public boolean purchaseMovie(Movie movie) {
-        if (tokensCount == 0)
+    /**
+     * Adds a movie to the purchased movies list
+     * and makes the user pay according to its account type
+     * @param movie the movie to be purchased
+     * @return if the purchase was successful
+     */
+    public boolean purchaseMovie(final Movie movie) {
+        if (tokensCount == 0) {
             return false;
+        }
 
         tokensCount = tokensCount - 2;
         purchasedMovies.add(movie);
         return true;
     }
 
-    public void buyTokens(int count) {
+    /**
+     * Buy tokens action;
+     * @param count the value
+     */
+    public void buyTokens(final int count) {
         credentials.subtractBalance(count);
         tokensCount += count;
     }
 
+    /**
+     * Turns a standard account into a premium account
+     * @return the premium account of the user
+     */
     public PremiumUser buyPremiumAcc() {
         tokensCount -= 10;
         return new PremiumUser(this);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "credentials=" + credentials +
-                ", tokensCount=" + tokensCount +
-                ", numFreePremiumMovies=" + numFreePremiumMovies +
-                ", purchasedMovies=" + purchasedMovies +
-                ", watchedMovies=" + watchedMovies +
-                ", likedMovies=" + likedMovies +
-                ", ratedMovies=" + ratedMovies +
-                '}';
     }
 }

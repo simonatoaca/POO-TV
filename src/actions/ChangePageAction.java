@@ -14,19 +14,26 @@ import java.util.List;
 import java.util.Objects;
 
 public class ChangePageAction extends Action {
-    public ChangePageAction(ActionInput action) {
+    public ChangePageAction(final ActionInput action) {
         this.page = action.getPage();
         this.movie = action.getMovie();
     }
 
-    private void handleSeeDetails(Page nextPage) throws JsonProcessingException {
+    /**
+     * SeeDetails page specific actions,
+     * Shows the movie details on success
+     * @param nextPage the page to move to after seeDetails page
+     */
+    private void handleSeeDetails(final Page nextPage)
+            throws JsonProcessingException {
         // Movie to "see details" on
         Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
 
         // Get the available movies
         List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getCurrentMovieList());
-        if (StreamingService.getCurrentUser() == null)
+        if (StreamingService.getCurrentUser() == null) {
             return;
+        }
 
         String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
         moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
@@ -35,21 +42,28 @@ public class ChangePageAction extends Action {
         if (moviesAvailable.contains(movieToBeSeen)) {
             moviesAvailable.removeIf(movie -> !Objects.equals(movie.getName(), this.movie));
             StreamingService.setCurrentMovieList(moviesAvailable);
-            ((SeeDetails)nextPage).setMovie(movieToBeSeen);
+            ((SeeDetails) nextPage).setMovie(movieToBeSeen);
             StreamingService.setCurrentPage(nextPage);
             OutputWriter.addToOutput(new Output());
         } else {
-            ((SeeDetails)nextPage).setMovie(null);
+            ((SeeDetails) nextPage).setMovie(null);
             OutputWriter.addToOutput(new Output("Error"));
         }
     }
 
-    private void handleMoviePage(Page nextPage) throws JsonProcessingException {
+    /**
+     * Movie page specific actions,
+     * CurrentMoviesList is populated
+     * @param nextPage the page to move to after movie page
+     */
+    private void handleMoviePage(final Page nextPage)
+            throws JsonProcessingException {
         // Remove movies which are banned in the country of the current user
         List<Movie> movieList = StreamingService.getMovieList();
         List<Movie> moviesAvailable = new ArrayList<>(movieList);
-        if (StreamingService.getCurrentUser() == null)
+        if (StreamingService.getCurrentUser() == null) {
             return;
+        }
 
         String userCountry = StreamingService.getCurrentUser()
                 .getCredentials()
@@ -62,15 +76,27 @@ public class ChangePageAction extends Action {
         OutputWriter.addToOutput(new Output());
     }
 
+    /**
+     * Logout specific actions:
+     * the current page becomes homepage unauthorized;
+     * the user is set to null;
+     * the current movie list is erased;
+     */
     private void handleLogout() {
         StreamingService.setCurrentPage(new HomepageUnauthorized());
         StreamingService.setCurrentMovieList(new ArrayList<>());
         StreamingService.setCurrentUser(null);
     }
 
-    public void execute(Page page) throws JsonProcessingException {
-        if (page.getSubPages() == null)
-           return;
+    /**
+     * {@inheritDoc}:
+     * Changes the page according to the input
+     */
+    public void execute(final Page page)
+            throws JsonProcessingException {
+        if (page.getSubPages() == null) {
+            return;
+        }
 
         boolean hasThisSubPage = page.getSubPages().contains(this.page);
 
@@ -107,43 +133,83 @@ public class ChangePageAction extends Action {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(HomepageUnauthorized page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final HomepageUnauthorized page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(HomepageAuthorized page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final HomepageAuthorized page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(Login page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final Login page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(Register page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final Register page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(Logout page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final Logout page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(MoviePage page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final MoviePage page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(SeeDetails page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final SeeDetails page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 
+    /**
+     * {@inheritDoc}:
+     * Lets the user buy a premium account
+     */
     @Override
-    public void execute(Upgrades page) throws JsonProcessingException {
-        execute((Page)page);
+    public void execute(final Upgrades page)
+            throws JsonProcessingException {
+        execute((Page) page);
     }
 }

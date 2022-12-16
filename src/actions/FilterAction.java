@@ -17,12 +17,16 @@ import java.util.List;
 public class FilterAction extends Action {
     private final Filter filters;
 
-    public FilterAction(ActionInput action) {
+    public FilterAction(final ActionInput action) {
         filters = action.getFilters();
     }
 
-    public void execute(MoviePage page) throws JsonProcessingException {
-        System.out.println("[FILTER]");
+    /**
+     * {@inheritDoc}:
+     * Filters currentMoviesList and prints it to output on success
+     */
+    public void execute(final MoviePage page)
+            throws JsonProcessingException {
         List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
 
         if (StreamingService.getCurrentUser() != null) {
@@ -38,22 +42,28 @@ public class FilterAction extends Action {
             if (this.filters.getSort().getRating() != null) {
                 switch (this.filters.getSort().getRating()) {
                     case "decreasing" -> {
-                        currentMovieList.sort((o1, o2) -> Double.compare(o2.getRating(), o1.getRating()));
+                        currentMovieList.sort((o1, o2) ->
+                                Double.compare(o2.getRating(), o1.getRating()));
                     }
                     case "increasing" -> {
-                        currentMovieList.sort((o1, o2) -> Double.compare(o1.getRating(), o2.getRating()));
+                        currentMovieList.sort((o1, o2) ->
+                                Double.compare(o1.getRating(), o2.getRating()));
                     }
+                    default -> { }
                 }
             }
 
             if (this.filters.getSort().getDuration() != null) {
                 switch (this.filters.getSort().getDuration()) {
                     case "decreasing" -> {
-                        currentMovieList.sort((o1, o2) -> Integer.compare(o2.getDuration(), o1.getDuration()));
+                        currentMovieList.sort((o1, o2) ->
+                                Integer.compare(o2.getDuration(), o1.getDuration()));
                     }
                     case "increasing" -> {
-                        currentMovieList.sort((o1, o2) -> Integer.compare(o1.getDuration(), o2.getDuration()));
+                        currentMovieList.sort((o1, o2) ->
+                                Integer.compare(o1.getDuration(), o2.getDuration()));
                     }
+                    default -> { }
                 }
             }
         }

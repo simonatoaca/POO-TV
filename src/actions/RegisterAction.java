@@ -15,12 +15,15 @@ import java.util.Objects;
 public class RegisterAction extends Action {
     private final Credentials credentials;
 
-    public RegisterAction(ActionInput action) {
+    public RegisterAction(final ActionInput action) {
         credentials = action.getCredentials();
     }
 
-    public void execute(Register page) throws JsonProcessingException {
-        System.out.println("[REGISTER] " + credentials.getName());
+    /**
+     * {@inheritDoc}:
+     * A new user registers using the given credentials
+     */
+    public void execute(final Register page) throws JsonProcessingException {
         Database database = Database.getInstance();
 
         boolean userExists = database.getUsers().containsKey(credentials.getName());

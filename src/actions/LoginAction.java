@@ -16,12 +16,16 @@ public class LoginAction extends Action
             implements PageVisitor {
     private final Credentials credentials;
 
-    public LoginAction(ActionInput action) {
+    public LoginAction(final ActionInput action) {
         credentials = action.getCredentials();
     }
 
-    public void execute(Login page) throws JsonProcessingException {
-        System.out.println("[LOGIN] " + credentials.getName());
+    /**
+     * {@inheritDoc}:
+     * A new user logs in with the given credentials
+     */
+    public void execute(final Login page)
+            throws JsonProcessingException {
         User user = Database.getInstance().getUsers().get(credentials.getName());
         if (user != null) {
             // Check password

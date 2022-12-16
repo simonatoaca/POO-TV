@@ -12,5 +12,11 @@ import java.util.Set;
 @EqualsAndHashCode
 public abstract class Page {
     private Set<String> subPages;
-    public abstract void accept(Action action) throws JsonProcessingException;
+
+    /**
+     * Accepts a visit from Action
+     * @param action the action that visits the page
+     */
+    public abstract void accept(Action action)
+            throws JsonProcessingException;
 }

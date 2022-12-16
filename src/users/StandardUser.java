@@ -10,10 +10,10 @@ import java.util.ArrayList;
 @Setter
 @NoArgsConstructor
 public class StandardUser extends User {
-    public StandardUser(Credentials credentials) {
+    public StandardUser(final Credentials credentials) {
         this.credentials = credentials;
         tokensCount = 0;
-        numFreePremiumMovies = 15;
+        numFreePremiumMovies = FREE_PREMIUM_MOVIES;
         purchasedMovies = new ArrayList<>();
         watchedMovies = new ArrayList<>();
         likedMovies = new ArrayList<>();

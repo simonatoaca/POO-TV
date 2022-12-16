@@ -23,13 +23,16 @@ public final class InputHandler {
     private String fileName;
     private Input input;
 
-    public InputHandler(String fileName) throws IOException {
+    public InputHandler(final String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         input = objectMapper.readValue(new File(fileName), Input.class);
     }
 
+    /**
+     * Loads the input into the database
+     */
     public void loadInputIntoDatabase() {
         List<User> users = input.getUsers();
         List<Movie> movies = input.getMovies();
@@ -45,49 +48,20 @@ public final class InputHandler {
             }
         }
 
-        for (Movie movie : movies)
+        for (Movie movie : movies) {
             database.getMovies().put(movie.getName(), movie);
+        }
     }
 
+    /**
+     * Gets the actions as Action objects;
+     * It uses an ActionFactory
+     * @return the list of Actions
+     */
     public List<Action> getActions() {
         List<Action> actions = new ArrayList<>();
         for (ActionInput action : input.getActions()) {
-            if (Objects.equals(action.getType(), "change page")) {
-                actions.add(new ChangePageAction(action));
-            } else {
-                switch (action.getFeature()) {
-                    case "login" -> {
-                        actions.add(new LoginAction(action));
-                    }
-                    case "register" -> {
-                        actions.add(new RegisterAction(action));
-                    }
-                    case "search" -> {
-                        actions.add(new SearchAction(action));
-                    }
-                    case "filter" -> {
-                        actions.add(new FilterAction(action));
-                    }
-                    case "buy tokens" -> {
-                        actions.add(new BuyTokensAction(action));
-                    }
-                    case "buy premium account" -> {
-                        actions.add(new BuyPremiumAccAction());
-                    }
-                    case "purchase" -> {
-                        actions.add(new PurchaseAction(action));
-                    }
-                    case "watch" -> {
-                        actions.add(new WatchAction(action));
-                    }
-                    case "like" -> {
-                        actions.add(new LikeAction(action));
-                    }
-                    case "rate" -> {
-                        actions.add(new RateAction(action));
-                    }
-                }
-            }
+           actions.add(ActionFactory.createAction(action));
         }
         return actions;
     }

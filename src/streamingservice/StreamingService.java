@@ -17,16 +17,35 @@ import java.util.List;
 
 @Getter
 @Setter
-public class StreamingService {
+public final class StreamingService {
+    @Getter
+    @Setter
     private static String inputFileName;
+    @Getter
+    @Setter
     private static String outputFileName;
+    @Getter
+    @Setter
     private static Page currentPage;
+    @Getter
+    @Setter
     private static User currentUser;
+    @Getter
+    @Setter
     private static StreamingService instance;
+    @Getter
+    @Setter
     private static List<Movie> movieList;
+    @Getter
+    @Setter
     private static List<Movie> currentMovieList;
 
-    private StreamingService(String inputFileName, String outputFileName) {
+    /**
+     * Initializes the instance of the streaming service
+     * @param inputFileName input file
+     * @param outputFileName output file
+     */
+    private StreamingService(final String inputFileName, final String outputFileName) {
         currentUser = null;
         StreamingService.inputFileName = inputFileName;
         StreamingService.outputFileName = outputFileName;
@@ -35,8 +54,15 @@ public class StreamingService {
         currentMovieList = new ArrayList<>();
     }
 
-    public static void start(String inputFileName,
-                             String outputFileName) throws IOException {
+    /**
+     * This is the entry point of the streaming service POO TV
+     * It handles I/O and the actions from the users
+     * @param inputFileName input file
+     * @param outputFileName output file
+     * @throws IOException output exception
+     */
+    public static void start(final String inputFileName,
+                             final String outputFileName) throws IOException {
         instance = new StreamingService(inputFileName, outputFileName);
 
         // Get input and load it into the database
@@ -50,43 +76,12 @@ public class StreamingService {
         OutputWriter.config();
 
         // Handle actions
-        for (Action action : actions)
+        for (Action action : actions) {
             currentPage.accept(action);
+        }
 
         // Write output
         OutputWriter.write(StreamingService.outputFileName);
         Database.getInstance().clear();
-    }
-
-    public static void setCurrentUser(User user) {
-        currentUser = user;
-    }
-
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-
-    public static void setCurrentPage(Page page) {
-        currentPage = page;
-    }
-
-    public static Page getCurrentPage() {
-        return currentPage;
-    }
-
-    public static List<Movie> getCurrentMovieList() {
-        return currentMovieList;
-    }
-
-    public static void setCurrentMovieList(List<Movie> movies) {
-        currentMovieList = movies;
-    }
-
-    public static List<Movie> getMovieList() {
-        return movieList;
-    }
-
-    public static String getOutputFileName() {
-        return outputFileName;
     }
 }

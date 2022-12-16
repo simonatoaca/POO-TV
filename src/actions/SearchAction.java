@@ -11,13 +11,15 @@ import java.util.List;
 
 public class SearchAction extends Action {
 
-    public SearchAction(ActionInput action) {
+    public SearchAction(final ActionInput action) {
         this.startsWith = action.getStartsWith();
     }
 
-    public void execute(MoviePage page) throws JsonProcessingException {
-        System.out.println("[SEARCH]");
-
+    /**
+     * {@inheritDoc}:
+     * The user searches for a movie that starts with a certain word
+     */
+    public void execute(final MoviePage page) throws JsonProcessingException {
         List<Movie> currentMovieList = StreamingService.getCurrentMovieList();
         currentMovieList.removeIf(movie -> !movie.getName().startsWith(this.startsWith));
 

@@ -10,13 +10,16 @@ import webpages.*;
 
 public class PurchaseAction extends Action {
 
-    public PurchaseAction(ActionInput action) {
+    public PurchaseAction(final ActionInput action) {
         this.movie = action.getMovie();
     }
 
-    public void execute(SeeDetails page) throws JsonProcessingException {
-        System.out.println("[PURCHASE]" + page.getMovie());
-        System.out.println("current movies \n" + StreamingService.getCurrentMovieList());
+    /**
+     * {@inheritDoc}:
+     * The user purchases the current movie on see details page
+     */
+    public void execute(final SeeDetails page)
+            throws JsonProcessingException {
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null || page.getMovie() == null) {
@@ -29,7 +32,7 @@ public class PurchaseAction extends Action {
             return;
         }
 
-        if(currentUser.purchaseMovie(page.getMovie())) {
+        if (currentUser.purchaseMovie(page.getMovie())) {
             OutputWriter.addToOutput(new Output());
         } else {
             OutputWriter.addToOutput(new Output("Error"));

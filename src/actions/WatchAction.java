@@ -12,12 +12,16 @@ import webpages.*;
 import java.util.Objects;
 
 public class WatchAction extends Action {
-    public WatchAction(ActionInput action) {
+    public WatchAction(final ActionInput action) {
         this.movie = action.getMovie();
     }
 
-    public void execute(SeeDetails page) throws JsonProcessingException {
-        System.out.println("[WATCH]");
+    /**
+     * {@inheritDoc}:
+     * The user watches the current movie on see details page
+     * (only if he/she already purchased it)
+     */
+    public void execute(final SeeDetails page) throws JsonProcessingException {
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null || page.getMovie() == null) {

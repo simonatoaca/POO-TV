@@ -24,53 +24,67 @@ public class Action implements PageVisitor {
     protected int rate;
     protected Filter filters;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String toString() {
-        return "{" +
-                "type='" + type + '\'' +
-                ", page='" + page + '\'' +
-                ", feature='" + feature + '\'' +
-                ", credentials=" + credentials +
-                '}';
-    }
-
-    @Override
-    public void execute(HomepageUnauthorized page) throws JsonProcessingException {
+    public void execute(final HomepageUnauthorized currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void execute(HomepageAuthorized page) throws JsonProcessingException {
+    public void execute(final HomepageAuthorized currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void execute(Login page) throws JsonProcessingException {
+    public void execute(final Login currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void execute(Register page) throws JsonProcessingException {
+    public void execute(final Register currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void execute(Logout page) throws JsonProcessingException {
+    public void execute(final Logout currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void execute(MoviePage page) throws JsonProcessingException {
+    public void execute(final MoviePage currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void execute(SeeDetails page) throws JsonProcessingException {
+    public void execute(final SeeDetails currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void execute(Upgrades page) throws JsonProcessingException {
+    public void execute(final Upgrades currentPage) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 }

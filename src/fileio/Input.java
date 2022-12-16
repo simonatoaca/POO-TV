@@ -13,13 +13,4 @@ public class Input {
     private List<User> users;
     private List<Movie> movies;
     private List<ActionInput> actions;
-
-    @Override
-    public String toString() {
-        return "Input{" +
-                "users=" + users +
-                ", movies=" + movies +
-                ", actions=" + actions +
-                '}';
-    }
 }

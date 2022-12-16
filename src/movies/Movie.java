@@ -31,7 +31,12 @@ public class Movie {
         countriesBanned = new ArrayList<>();
     }
 
-    public Movie(Movie movie) {
+    /**
+     * Deep copies a movie;
+     * Used for output
+     * @param movie the movie to be copied
+     */
+    public Movie(final Movie movie) {
         this.name = movie.name;
         this.rating = movie.rating;
         this.year = movie.year;
@@ -44,26 +49,20 @@ public class Movie {
         this.countriesBanned = new ArrayList<>(movie.countriesBanned);
     }
 
+    /**
+     * Increments the number of likes of this movie
+     */
     public void incrementNumLikes() {
         numLikes++;
     }
 
-    public void addRating(int rating) {
+    /**
+     * Adds a rating to the movie and recalculates the average rating
+     * @param rating the rating added
+     */
+    public void addRating(final int rating) {
         numRatings++;
         totalScore += rating;
-        this.rating = (double)totalScore / (double)numRatings;
-        System.out.println("added rating " + this.rating);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "name='" + name + '\'' +
-                ", year=" + year +
-                ", duration=" + duration +
-                ", genres=" + genres +
-                ", actors=" + actors +
-                ", countriesBanned=" + countriesBanned +
-                '}';
+        this.rating = (double) totalScore / (double) numRatings;
     }
 }

@@ -13,11 +13,17 @@ import java.util.Objects;
 
 public class LikeAction extends Action {
 
-    public LikeAction(ActionInput action) {
+    public LikeAction(final ActionInput action) {
         this.movie = action.getMovie();
     }
-    public void execute(SeeDetails page) throws JsonProcessingException {
-        System.out.println("[LIKE]");
+
+    /**
+     * {@inheritDoc}:
+     * The user likes the current movie on see details page
+     * (only if he/she already watched it)
+     */
+    public void execute(final SeeDetails page)
+            throws JsonProcessingException {
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null || this.movie == null) {

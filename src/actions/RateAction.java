@@ -13,12 +13,16 @@ import java.util.Objects;
 
 public class RateAction extends Action {
 
-    public RateAction(ActionInput action) {
+    public RateAction(final ActionInput action) {
         this.rate = action.getRate();
     }
 
-    public void execute(SeeDetails page) throws JsonProcessingException {
-        System.out.println("[RATE]");
+    /**
+     * {@inheritDoc}:
+     * The user rates the current movie on see details page (1 to 5)
+     * (only if he/she already watched it)
+     */
+    public void execute(final SeeDetails page) throws JsonProcessingException {
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null || page.getMovie() == null) {
@@ -38,7 +42,6 @@ public class RateAction extends Action {
 
         if (movieWasWatched && this.getRate() < 6 && this.getRate() > 0) {
             currentUser.getRatedMovies().add(movie);
-            System.out.println("[this.getRate()] " + this.getRate());
             movie.addRating(this.getRate());
             OutputWriter.addToOutput(new Output());
             return;

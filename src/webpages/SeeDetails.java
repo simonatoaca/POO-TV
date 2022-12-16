@@ -14,13 +14,11 @@ public class SeeDetails extends Page {
     private final Set<String> subPages = new HashSet<>(Set.of("movies", "upgrades", "see details"));
     private Movie movie;
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void accept(Action action) throws JsonProcessingException {
+    public void accept(final Action action) throws JsonProcessingException {
         action.execute(this);
     }
 }

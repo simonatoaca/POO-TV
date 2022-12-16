@@ -5,20 +5,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import movies.Movie;
 
-import java.util.ArrayList;
-
 @Getter
 @Setter
 @NoArgsConstructor
 public class PremiumUser extends User {
-    public PremiumUser(Credentials credentials) {
+    public PremiumUser(final Credentials credentials) {
         this.credentials = credentials;
         tokensCount = 0;
-        numFreePremiumMovies = 15;
+        numFreePremiumMovies = FREE_PREMIUM_MOVIES;
     }
 
-    public PremiumUser(User user) {
-        System.out.println("[BUY PREMIUM]");
+    public PremiumUser(final User user) {
         credentials = user.getCredentials();
         credentials.setAccountType("premium");
         tokensCount = user.getTokensCount();
@@ -29,8 +26,11 @@ public class PremiumUser extends User {
         ratedMovies = user.getRatedMovies();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean purchaseMovie(Movie movie) {
+    public boolean purchaseMovie(final Movie movie) {
         if (numFreePremiumMovies == 0) {
             if (tokensCount == 0) {
                 return false;

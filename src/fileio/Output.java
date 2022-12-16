@@ -17,13 +17,11 @@ public class Output {
     private User currentUser;
 
     public Output() {
-        System.out.println("[SUCCESS]");
         this.currentMoviesList = StreamingService.getCurrentMovieList();
         this.currentUser = StreamingService.getCurrentUser();
     }
 
-    public Output(String error) {
-        System.out.println("[ERROR]");
+    public Output(final String error) {
         this.error = error;
         this.currentMoviesList = new ArrayList<>();
         this.currentUser = null;

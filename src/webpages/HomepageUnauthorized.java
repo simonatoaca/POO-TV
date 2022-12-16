@@ -11,8 +11,11 @@ import java.util.*;
 public class HomepageUnauthorized extends Page {
     private final Set<String> subPages = new HashSet<>(Set.of("login", "register"));
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void accept(Action action) throws JsonProcessingException {
+    public void accept(final Action action) throws JsonProcessingException {
         action.execute(this);
     }
 }

@@ -12,8 +12,11 @@ import java.util.Set;
 public class Upgrades extends Page {
     private final Set<String> subPages = new HashSet<>(Set.of("movies", "upgrades"));
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void accept(Action action) throws JsonProcessingException {
+    public void accept(final Action action) throws JsonProcessingException {
         action.execute(this);
     }
 }
