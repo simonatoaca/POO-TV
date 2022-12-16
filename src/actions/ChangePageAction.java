@@ -27,7 +27,7 @@ public class ChangePageAction extends Action
 
         if (hasThisSubPage) {
             Page nextPage = Database.getInstance().getPage(this.page);
-            StreamingService.setCurrentPage(nextPage);
+
             System.out.println("[CHANGE PAGE] to " + this.page);
 
             if (Objects.equals(this.page, "see details")) {
@@ -35,7 +35,7 @@ public class ChangePageAction extends Action
                 Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
 
                 // Get the available movies
-                List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
+                List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getCurrentMovieList());
                 if (StreamingService.getCurrentUser() != null) {
                     String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
                     moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
@@ -46,11 +46,13 @@ public class ChangePageAction extends Action
                     moviesAvailable.removeIf(movie -> !Objects.equals(movie.getName(), this.movie));
                     StreamingService.setCurrentMovieList(moviesAvailable);
                     ((SeeDetails)nextPage).setMovie(movieToBeSeen);
+                    StreamingService.setCurrentPage(nextPage);
                     OutputWriter.addToOutput(new Output());
                 } else {
                     ((SeeDetails)nextPage).setMovie(null);
                     OutputWriter.addToOutput(new Output("Error"));
                 }
+                return;
             }
 
             if (Objects.equals(this.page, "movies")) {
@@ -60,10 +62,12 @@ public class ChangePageAction extends Action
                     String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
                     moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
                 }
-
+                StreamingService.setCurrentPage(nextPage);
                 StreamingService.setCurrentMovieList(moviesAvailable);
                 OutputWriter.addToOutput(new Output());
+                return;
             }
+            StreamingService.setCurrentPage(nextPage);
 
             return;
         }
