@@ -1,11 +1,8 @@
 package fileio;
 
-import actions.Action;
-import actions.ActionInput;
 import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
-import users.Credentials;
 import users.User;
 
 import java.util.List;

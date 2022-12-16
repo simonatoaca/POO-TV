@@ -2,6 +2,7 @@ package actions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import database.Database;
+import fileio.ActionInput;
 import fileio.Output;
 import fileio.OutputWriter;
 import movies.Movie;
@@ -12,61 +13,80 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ChangePageAction extends Action
-        implements PageVisitor {
+public class ChangePageAction extends Action {
     public ChangePageAction(ActionInput action) {
         this.page = action.getPage();
         this.movie = action.getMovie();
     }
 
-    public void execute(Page page) throws JsonProcessingException {
-        boolean hasThisSubPage = false;
-        if (page.getSubPages() != null) {
-            hasThisSubPage = page.getSubPages().contains(this.page);
+    private void handleSeeDetails(Page nextPage) throws JsonProcessingException {
+        // Movie to "see details" on
+        Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
+
+        // Get the available movies
+        List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getCurrentMovieList());
+        if (StreamingService.getCurrentUser() == null)
+            return;
+
+        String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
+        moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
+
+        // If the movie is available show it
+        if (moviesAvailable.contains(movieToBeSeen)) {
+            moviesAvailable.removeIf(movie -> !Objects.equals(movie.getName(), this.movie));
+            StreamingService.setCurrentMovieList(moviesAvailable);
+            ((SeeDetails)nextPage).setMovie(movieToBeSeen);
+            StreamingService.setCurrentPage(nextPage);
+            OutputWriter.addToOutput(new Output());
+        } else {
+            ((SeeDetails)nextPage).setMovie(null);
+            OutputWriter.addToOutput(new Output("Error"));
         }
+    }
+
+    private void handleMoviePage(Page nextPage) throws JsonProcessingException {
+        // Remove movies which are banned in the country of the current user
+        List<Movie> movieList = StreamingService.getMovieList();
+        List<Movie> moviesAvailable = new ArrayList<>(movieList);
+        if (StreamingService.getCurrentUser() == null)
+            return;
+
+        String userCountry = StreamingService.getCurrentUser()
+                .getCredentials()
+                .getCountry();
+        moviesAvailable.removeIf(movie -> movie.getCountriesBanned()
+                .contains(userCountry));
+
+        StreamingService.setCurrentPage(nextPage);
+        StreamingService.setCurrentMovieList(moviesAvailable);
+        OutputWriter.addToOutput(new Output());
+    }
+
+    private void handleLogout() {
+        StreamingService.setCurrentPage(new HomepageUnauthorized());
+        StreamingService.setCurrentMovieList(new ArrayList<>());
+        StreamingService.setCurrentUser(null);
+    }
+
+    public void execute(Page page) throws JsonProcessingException {
+        if (page.getSubPages() == null)
+           return;
+
+        boolean hasThisSubPage = page.getSubPages().contains(this.page);
 
         if (hasThisSubPage) {
             Page nextPage = Database.getInstance().getPage(this.page);
 
-            System.out.println("[CHANGE PAGE] to " + this.page);
-
             if (Objects.equals(this.page, "see details")) {
-                // Movie to "see details" on
-                Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
-
-                // Get the available movies
-                List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getCurrentMovieList());
-                if (StreamingService.getCurrentUser() != null) {
-                    String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
-                    moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
-                }
-
-                // If the movie is available show it
-                if (moviesAvailable.contains(movieToBeSeen)) {
-                    moviesAvailable.removeIf(movie -> !Objects.equals(movie.getName(), this.movie));
-                    StreamingService.setCurrentMovieList(moviesAvailable);
-                    ((SeeDetails)nextPage).setMovie(movieToBeSeen);
-                    StreamingService.setCurrentPage(nextPage);
-                    OutputWriter.addToOutput(new Output());
-                } else {
-                    ((SeeDetails)nextPage).setMovie(null);
-                    OutputWriter.addToOutput(new Output("Error"));
-                }
+                handleSeeDetails(nextPage);
                 return;
             }
 
             if (Objects.equals(this.page, "movies")) {
-                // Remove movies which are banned in the country of the current user
-                List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
-                if (StreamingService.getCurrentUser() != null) {
-                    String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
-                    moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
-                }
-                StreamingService.setCurrentPage(nextPage);
-                StreamingService.setCurrentMovieList(moviesAvailable);
-                OutputWriter.addToOutput(new Output());
+                handleMoviePage(nextPage);
                 return;
             }
+
             StreamingService.setCurrentPage(nextPage);
 
             return;
@@ -74,15 +94,13 @@ public class ChangePageAction extends Action
 
         if (Objects.equals(this.page, "logout")
                 && StreamingService.getCurrentUser() != null) {
-            System.out.println("[LOGOUT]");
-            StreamingService.setCurrentPage(new HomepageUnauthorized());
-            StreamingService.setCurrentMovieList(new ArrayList<>());
-            StreamingService.setCurrentUser(null);
+            handleLogout();
             return;
         }
 
-        if ((Objects.equals(this.page, "login") || Objects.equals(this.page, "register")) &&
-        StreamingService.getCurrentUser() == null) {
+        if ((Objects.equals(this.page, "login")
+                || Objects.equals(this.page, "register"))
+                && StreamingService.getCurrentUser() == null) {
             StreamingService.setCurrentPage(new HomepageUnauthorized());
         }
 
@@ -94,6 +112,7 @@ public class ChangePageAction extends Action
         execute((Page)page);
     }
 
+    @Override
     public void execute(HomepageAuthorized page) throws JsonProcessingException {
         execute((Page)page);
     }

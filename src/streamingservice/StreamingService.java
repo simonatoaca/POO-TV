@@ -35,23 +35,25 @@ public class StreamingService {
         currentMovieList = new ArrayList<>();
     }
 
-    public static void start(String inputFileName, String outputFileName) throws IOException {
-        System.out.println("START");
+    public static void start(String inputFileName,
+                             String outputFileName) throws IOException {
         instance = new StreamingService(inputFileName, outputFileName);
 
+        // Get input and load it into the database
         InputHandler inputHandler = new InputHandler(inputFileName);
         inputHandler.loadInputIntoDatabase();
-        List<Action> actions = inputHandler.getActions();
 
+        // Get actions and movieList
+        List<Action> actions = inputHandler.getActions();
         movieList = new ArrayList<>(inputHandler.getInput().getMovies());
 
-//        StreamingService.outputFileName = inputFileName.replace("in", "out");
         OutputWriter.config();
 
-        for (Action action : actions) {
+        // Handle actions
+        for (Action action : actions)
             currentPage.accept(action);
-        }
 
+        // Write output
         OutputWriter.write(StreamingService.outputFileName);
         Database.getInstance().clear();
     }

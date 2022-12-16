@@ -3,6 +3,7 @@ package actions;
 import actionutils.Contains;
 import actionutils.Filter;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import fileio.ActionInput;
 import fileio.Output;
 import fileio.OutputWriter;
 import movies.Movie;
@@ -13,48 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FilterAction extends Action
-                    implements PageVisitor {
-
-    private Filter filters;
+public class FilterAction extends Action {
+    private final Filter filters;
 
     public FilterAction(ActionInput action) {
         filters = action.getFilters();
-    }
-
-    @Override
-    public void execute(HomepageUnauthorized page) throws JsonProcessingException {
-//        StreamingService.setCurrentPage(new HomepageUnauthorized());
-//        StreamingService.setCurrentUser(null);
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(HomepageAuthorized page) throws JsonProcessingException {
-//        StreamingService.setCurrentPage(new HomepageUnauthorized());
-//        StreamingService.setCurrentUser(null);
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Login page) throws JsonProcessingException {
-//        StreamingService.setCurrentPage(new HomepageUnauthorized());
-//        StreamingService.setCurrentUser(null);
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Register page) throws JsonProcessingException {
-//        StreamingService.setCurrentPage(new HomepageUnauthorized());
-//        StreamingService.setCurrentUser(null);
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Logout page) throws JsonProcessingException {
-//        StreamingService.setCurrentPage(new HomepageUnauthorized());
-//        StreamingService.setCurrentUser(null);
-        OutputWriter.addToOutput(new Output("Error"));
     }
 
     public void execute(MoviePage page) throws JsonProcessingException {
@@ -110,19 +74,5 @@ public class FilterAction extends Action
         }
 
         OutputWriter.addToOutput(new Output());
-    }
-
-    @Override
-    public void execute(SeeDetails page) throws JsonProcessingException {
-//        StreamingService.setCurrentPage(new HomepageUnauthorized());
-//        StreamingService.setCurrentUser(null);
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Upgrades page) throws JsonProcessingException {
-//        StreamingService.setCurrentPage(new HomepageUnauthorized());
-//        StreamingService.setCurrentUser(null);
-        OutputWriter.addToOutput(new Output("Error"));
     }
 }

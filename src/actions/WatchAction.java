@@ -1,7 +1,7 @@
 package actions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import database.Database;
+import fileio.ActionInput;
 import fileio.Output;
 import fileio.OutputWriter;
 import movies.Movie;
@@ -9,45 +9,11 @@ import streamingservice.StreamingService;
 import users.User;
 import webpages.*;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Objects;
 
-public class WatchAction extends Action
-    implements PageVisitor {
-
+public class WatchAction extends Action {
     public WatchAction(ActionInput action) {
         this.movie = action.getMovie();
-    }
-
-    @Override
-    public void execute(HomepageUnauthorized page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(HomepageAuthorized page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Login page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Register page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Logout page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(MoviePage page) throws JsonProcessingException {
-        OutputWriter.addToOutput(new Output("Error"));
     }
 
     public void execute(SeeDetails page) throws JsonProcessingException {
@@ -75,11 +41,6 @@ public class WatchAction extends Action
             return;
         }
 
-        OutputWriter.addToOutput(new Output("Error"));
-    }
-
-    @Override
-    public void execute(Upgrades page) throws JsonProcessingException {
         OutputWriter.addToOutput(new Output("Error"));
     }
 }
