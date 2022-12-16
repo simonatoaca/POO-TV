@@ -10,6 +10,7 @@ import users.User;
 import webpages.*;
 
 import java.util.Collections;
+import java.util.Objects;
 
 public class RateAction extends Action
                 implements PageVisitor {
@@ -59,11 +60,17 @@ public class RateAction extends Action
 
         // Check if the user watched the movie
         Movie movie = page.getMovie();
-        int idx = Collections.binarySearch(currentUser.getWatchedMovies(), movie,
-                (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName()));
+        boolean movieWasWatched = false;
+        for (Movie movieWatched : currentUser.getWatchedMovies()) {
+            if (Objects.equals(movieWatched.getName(), movie.getName())) {
+                movieWasWatched = true;
+                break;
+            }
+        }
 
-        if (idx >= 0) {
+        if (movieWasWatched && this.getRate() < 6 && this.getRate() > 0) {
             currentUser.getRatedMovies().add(movie);
+            System.out.println("[this.getRate()] " + this.getRate());
             movie.addRating(this.getRate());
             OutputWriter.addToOutput(new Output());
             return;

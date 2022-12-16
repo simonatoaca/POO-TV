@@ -11,6 +11,7 @@ import webpages.*;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Objects;
 
 public class LikeAction extends Action
                     implements PageVisitor{
@@ -28,11 +29,16 @@ public class LikeAction extends Action
         }
 
         // Check if the user watched the movie
-        Movie movie = Database.getInstance().getMovie(this.movie);
-        int idx = Collections.binarySearch(currentUser.getWatchedMovies(), movie,
-                (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName()));
+        Movie movie = page.getMovie();
+        boolean movieWasWatched = false;
+        for (Movie movieWatched : currentUser.getWatchedMovies()) {
+            if (Objects.equals(movieWatched.getName(), movie.getName())) {
+                movieWasWatched = true;
+                break;
+            }
+        }
 
-        if (idx >= 0) {
+        if (movieWasWatched) {
             currentUser.getLikedMovies().add(movie);
             movie.incrementNumLikes();
             OutputWriter.addToOutput(new Output());

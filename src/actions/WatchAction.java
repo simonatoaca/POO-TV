@@ -11,6 +11,7 @@ import webpages.*;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class WatchAction extends Action
     implements PageVisitor {
@@ -60,10 +61,15 @@ public class WatchAction extends Action
 
         // Check if the user purchased the movie
         Movie movie = page.getMovie();
-        int idx = Collections.binarySearch(currentUser.getPurchasedMovies(), movie,
-                (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName()));
+        boolean movieWasPurchased = false;
+        for (Movie moviePurchased : currentUser.getPurchasedMovies()) {
+            if (Objects.equals(moviePurchased.getName(), movie.getName())) {
+                movieWasPurchased = true;
+                break;
+            }
+        }
 
-        if (idx >= 0) {
+        if (movieWasPurchased) {
             currentUser.getWatchedMovies().add(movie);
             OutputWriter.addToOutput(new Output());
             return;

@@ -30,8 +30,18 @@ public class PremiumUser extends User {
     }
 
     @Override
-    public void purchaseMovie(Movie movie) {
+    public boolean purchaseMovie(Movie movie) {
+        if (numFreePremiumMovies == 0) {
+            if (tokensCount == 0) {
+                return false;
+            }
+            tokensCount = tokensCount - 2;
+            purchasedMovies.add(movie);
+            return true;
+        }
+
         numFreePremiumMovies--;
         purchasedMovies.add(movie);
+        return true;
     }
 }

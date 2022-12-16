@@ -48,7 +48,6 @@ public class LoginAction extends Action
 
     @Override
     public void execute(HomepageAuthorized page) throws JsonProcessingException {
-        StreamingService.setCurrentPage(new HomepageUnauthorized());
         OutputWriter.addToOutput(new Output("Error"));
     }
 

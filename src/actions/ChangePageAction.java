@@ -68,7 +68,8 @@ public class ChangePageAction extends Action
             return;
         }
 
-        if (Objects.equals(this.page, "logout")) {
+        if (Objects.equals(this.page, "logout")
+                && StreamingService.getCurrentUser() != null) {
             System.out.println("[LOGOUT]");
             StreamingService.setCurrentPage(new HomepageUnauthorized());
             StreamingService.setCurrentMovieList(new ArrayList<>());

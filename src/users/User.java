@@ -49,9 +49,13 @@ public class User {
             this.ratedMovies.add(new Movie(movie));
     }
 
-    public void purchaseMovie(Movie movie) {
+    public boolean purchaseMovie(Movie movie) {
+        if (tokensCount == 0)
+            return false;
+
         tokensCount = tokensCount - 2;
         purchasedMovies.add(movie);
+        return true;
     }
 
     public void buyTokens(int count) {
