@@ -1,17 +1,22 @@
 package database;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import fileio.Output;
+import fileio.OutputWriter;
 import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
+import users.Notification;
 import users.User;
 import webpages.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 
 @Getter
 @Setter
-public final class Database {
+public final class Database extends Observable {
     private static Database database;
     private Map<String, User> users;
     private Map<String, Movie> movies;
@@ -51,6 +56,30 @@ public final class Database {
      */
     public Movie getMovie(final String name) {
         return movies.get(name);
+    }
+
+    public void addMovie(final Movie movie) throws JsonProcessingException {
+        if (getMovies().containsKey(movie.getName())) {
+            OutputWriter.addToOutput(new Output("Error"));
+            return;
+        }
+
+        movies.put(movie.getName(), movie);
+        setChanged();
+
+        notifyObservers(new Notification(movie.getName(), Notification.ADD));
+    }
+
+    public void deleteMovie(final Movie movie) throws JsonProcessingException {
+        if (!getMovies().containsKey(movie.getName())) {
+            OutputWriter.addToOutput(new Output("Error"));
+            return;
+        }
+
+        movies.remove(movie.getName());
+        setChanged();
+
+        notifyObservers(new Notification(movie.getName(), Notification.DELETE));
     }
 
     /**

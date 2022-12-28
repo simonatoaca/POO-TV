@@ -23,6 +23,10 @@ public class Action implements PageVisitor {
     protected int count;
     protected int rate;
     protected Filter filters;
+    private String subscribedGenre;
+    private String addedMovie;
+    private String deletedMovie;
+
 
     /**
      * {@inheritDoc}

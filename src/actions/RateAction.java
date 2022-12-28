@@ -12,6 +12,8 @@ import webpages.*;
 import java.util.Objects;
 
 public class RateAction extends Action {
+    private static final int MIN_RATING = 1;
+    private static final int MAX_RATING = 5;
 
     public RateAction(final ActionInput action) {
         this.rate = action.getRate();
@@ -40,7 +42,7 @@ public class RateAction extends Action {
             }
         }
 
-        if (movieWasWatched && this.getRate() < 6 && this.getRate() > 0) {
+        if (movieWasWatched && this.getRate() <= MAX_RATING && this.getRate() >= MIN_RATING) {
             currentUser.getRatedMovies().add(movie);
             movie.addRating(this.getRate());
             OutputWriter.addToOutput(new Output());

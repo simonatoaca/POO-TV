@@ -86,6 +86,7 @@ public class ChangePageAction extends Action {
         StreamingService.setCurrentPage(new HomepageUnauthorized());
         StreamingService.setCurrentMovieList(new ArrayList<>());
         StreamingService.setCurrentUser(null);
+        StreamingService.setPageHistory(new ArrayList<>());
     }
 
     /**

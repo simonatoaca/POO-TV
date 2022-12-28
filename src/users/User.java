@@ -1,18 +1,21 @@
 package users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import database.Database;
+import fileio.Output;
+import fileio.OutputWriter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
 @EqualsAndHashCode
-public class User {
+public class User implements Observer {
     protected Credentials credentials;
     protected int tokensCount;
     protected int numFreePremiumMovies;
@@ -20,15 +23,22 @@ public class User {
     protected List<Movie> watchedMovies;
     protected List<Movie> likedMovies;
     protected List<Movie> ratedMovies;
+    protected List<Notification> notifications;
+
+    @JsonIgnore
+    protected List<String> subscribedGenres;
 
     @JsonIgnore
     protected static final int FREE_PREMIUM_MOVIES = 15;
+    @JsonIgnore
+    protected static final int PREMIUM_ACC_PRICE = 10;
 
     public User() {
         purchasedMovies = new ArrayList<>();
         watchedMovies = new ArrayList<>();
         likedMovies = new ArrayList<>();
         ratedMovies = new ArrayList<>();
+        subscribedGenres = new ArrayList<>();
     }
 
     /**
@@ -44,6 +54,7 @@ public class User {
         this.likedMovies = new ArrayList<>();
         this.watchedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
+        this.subscribedGenres = new ArrayList<>();
 
         for (Movie movie : user.getPurchasedMovies()) {
             this.purchasedMovies.add(new Movie(movie));
@@ -92,7 +103,43 @@ public class User {
      * @return the premium account of the user
      */
     public PremiumUser buyPremiumAcc() {
-        tokensCount -= 10;
+        tokensCount -= PREMIUM_ACC_PRICE;
         return new PremiumUser(this);
+    }
+
+    protected void getRefund() {
+        // Basic refund for standard users
+        tokensCount += 2;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Notification newNotification = (Notification) arg;
+
+        if (Objects.equals(newNotification.getMessage(), Notification.DELETE)) {
+            purchasedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
+            likedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
+            ratedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
+            watchedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
+
+            getRefund();
+            notifications.add(newNotification);
+            return;
+        }
+
+        Movie movie = Database.getInstance().getMovie(newNotification.getMovieName());
+
+        // Check if the movie is available to the user / the genre is one of the movie's genres
+        if (movie.getCountriesBanned().contains(getCredentials().getCountry())
+            || getSubscribedGenres().stream().noneMatch(movie.getGenres()::contains)) {
+            try {
+                OutputWriter.addToOutput(new Output("Error"));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+
+        notifications.add(newNotification);
     }
 }

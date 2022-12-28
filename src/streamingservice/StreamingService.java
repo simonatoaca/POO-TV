@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 public final class StreamingService {
     @Getter
     @Setter
@@ -40,6 +38,10 @@ public final class StreamingService {
     @Setter
     private static List<Movie> currentMovieList;
 
+    @Getter
+    @Setter
+    private static List<Page> pageHistory;
+
     /**
      * Initializes the instance of the streaming service
      * @param inputFileName input file
@@ -52,6 +54,7 @@ public final class StreamingService {
         currentPage = new HomepageUnauthorized();
         movieList = new ArrayList<>();
         currentMovieList = new ArrayList<>();
+        pageHistory = new ArrayList<>();
     }
 
     /**

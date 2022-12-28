@@ -44,4 +44,9 @@ public class PremiumUser extends User {
         purchasedMovies.add(movie);
         return true;
     }
+
+    @Override
+    protected void getRefund() {
+        numFreePremiumMovies++;
+    }
 }

@@ -17,4 +17,7 @@ public final class ActionInput {
     private int count;
     private int rate;
     private Filter filters;
+    private String subscribedGenre;
+    private String addedMovie;
+    private String deletedMovie;
 }
