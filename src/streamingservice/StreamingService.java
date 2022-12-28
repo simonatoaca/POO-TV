@@ -76,6 +76,7 @@ public final class StreamingService {
         List<Action> actions = inputHandler.getActions();
         movieList = new ArrayList<>(inputHandler.getInput().getMovies());
 
+        StreamingService.outputFileName = inputFileName.replace("in", "out");
         OutputWriter.config();
 
         // Handle actions

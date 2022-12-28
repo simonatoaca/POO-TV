@@ -30,7 +30,7 @@ public class ChangePageAction extends Action {
         Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
 
         // Get the available movies
-        List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getCurrentMovieList());
+        List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
         if (StreamingService.getCurrentUser() == null) {
             return;
         }
@@ -43,6 +43,7 @@ public class ChangePageAction extends Action {
             moviesAvailable.removeIf(movie -> !Objects.equals(movie.getName(), this.movie));
             StreamingService.setCurrentMovieList(moviesAvailable);
             ((SeeDetails) nextPage).setMovie(movieToBeSeen);
+            StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
             StreamingService.setCurrentPage(nextPage);
             OutputWriter.addToOutput(new Output());
         } else {
@@ -71,6 +72,7 @@ public class ChangePageAction extends Action {
         moviesAvailable.removeIf(movie -> movie.getCountriesBanned()
                 .contains(userCountry));
 
+        StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
         StreamingService.setCurrentPage(nextPage);
         StreamingService.setCurrentMovieList(moviesAvailable);
         OutputWriter.addToOutput(new Output());
@@ -95,6 +97,7 @@ public class ChangePageAction extends Action {
      */
     public void execute(final Page page)
             throws JsonProcessingException {
+        System.out.println("[CHANGE PAGE] " + this.page);
         if (page.getSubPages() == null) {
             return;
         }
@@ -115,6 +118,7 @@ public class ChangePageAction extends Action {
             }
 
             StreamingService.setCurrentPage(nextPage);
+            StreamingService.getPageHistory().add(0, page);
 
             return;
         }
@@ -136,7 +140,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final HomepageUnauthorized page)
@@ -146,7 +150,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final HomepageAuthorized page)
@@ -156,7 +160,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final Login page)
@@ -166,7 +170,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final Register page)
@@ -176,7 +180,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final Logout page)
@@ -186,7 +190,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final MoviePage page)
@@ -196,7 +200,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final SeeDetails page)
@@ -206,7 +210,7 @@ public class ChangePageAction extends Action {
 
     /**
      * {@inheritDoc}:
-     * Lets the user buy a premium account
+     * Changes the page according to the input
      */
     @Override
     public void execute(final Upgrades page)

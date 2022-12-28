@@ -31,6 +31,7 @@ public class LoginAction extends Action
             // Check password
             if (Objects.equals(user.getCredentials().getPassword(),
                     credentials.getPassword())) {
+                StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
                 StreamingService.setCurrentUser(user);
                 StreamingService.setCurrentPage(new HomepageAuthorized());
                 OutputWriter.addToOutput(new Output());

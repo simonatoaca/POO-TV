@@ -22,6 +22,7 @@ public class WatchAction extends Action {
      * (only if he/she already purchased it)
      */
     public void execute(final SeeDetails page) throws JsonProcessingException {
+        System.out.println("[WATCH]");
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null || page.getMovie() == null) {
@@ -39,7 +40,18 @@ public class WatchAction extends Action {
             }
         }
 
+        boolean movieWasWatched = false;
+        for (Movie movieWatched : currentUser.getWatchedMovies()) {
+            if (Objects.equals(movieWatched.getName(), movie.getName())) {
+                movieWasWatched = true;
+                break;
+            }
+        }
+
         if (movieWasPurchased) {
+            if (movieWasWatched) {
+                return;
+            }
             currentUser.getWatchedMovies().add(movie);
             OutputWriter.addToOutput(new Output());
             return;

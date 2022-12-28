@@ -70,16 +70,16 @@ public final class Database extends Observable {
         notifyObservers(new Notification(movie.getName(), Notification.ADD));
     }
 
-    public void deleteMovie(final Movie movie) throws JsonProcessingException {
-        if (!getMovies().containsKey(movie.getName())) {
+    public void deleteMovie(final String movie) throws JsonProcessingException {
+        if (!getMovies().containsKey(movie)) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
 
-        movies.remove(movie.getName());
+        movies.remove(movie);
         setChanged();
 
-        notifyObservers(new Notification(movie.getName(), Notification.DELETE));
+        notifyObservers(new Notification(movie, Notification.DELETE));
     }
 
     /**

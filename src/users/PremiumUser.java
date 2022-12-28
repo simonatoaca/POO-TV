@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import movies.Movie;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,10 +33,18 @@ public class PremiumUser extends User {
      */
     @Override
     public boolean purchaseMovie(final Movie movie) {
+        // Check if the user purchased the movie
+        for (Movie moviePurchased : purchasedMovies) {
+            if (Objects.equals(moviePurchased.getName(), movie.getName())) {
+                return false;
+            }
+        }
+
         if (numFreePremiumMovies == 0) {
             if (tokensCount == 0) {
                 return false;
             }
+
             tokensCount = tokensCount - 2;
             purchasedMovies.add(movie);
             return true;

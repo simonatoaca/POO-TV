@@ -19,4 +19,9 @@ public class Upgrades extends Page {
     public void accept(final Action action) throws JsonProcessingException {
         action.execute(this);
     }
+
+    @Override
+    public String getPageName() {
+        return "upgrades";
+    }
 }

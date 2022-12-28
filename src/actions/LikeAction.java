@@ -41,7 +41,15 @@ public class LikeAction extends Action {
             }
         }
 
-        if (movieWasWatched) {
+        boolean movieWasLiked = false;
+        for (Movie movieLiked : currentUser.getLikedMovies()) {
+            if (Objects.equals(movieLiked.getName(), movie.getName())) {
+                movieWasLiked = true;
+                break;
+            }
+        }
+
+        if (movieWasWatched && !movieWasLiked) {
             currentUser.getLikedMovies().add(movie);
             movie.incrementNumLikes();
             OutputWriter.addToOutput(new Output());

@@ -23,6 +23,7 @@ public class User implements Observer {
     protected List<Movie> watchedMovies;
     protected List<Movie> likedMovies;
     protected List<Movie> ratedMovies;
+
     protected List<Notification> notifications;
 
     @JsonIgnore
@@ -39,6 +40,7 @@ public class User implements Observer {
         likedMovies = new ArrayList<>();
         ratedMovies = new ArrayList<>();
         subscribedGenres = new ArrayList<>();
+        notifications = new ArrayList<>();
     }
 
     /**
@@ -55,6 +57,7 @@ public class User implements Observer {
         this.watchedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
         this.subscribedGenres = new ArrayList<>();
+        this.notifications = new ArrayList<>();
 
         for (Movie movie : user.getPurchasedMovies()) {
             this.purchasedMovies.add(new Movie(movie));
@@ -82,6 +85,13 @@ public class User implements Observer {
     public boolean purchaseMovie(final Movie movie) {
         if (tokensCount == 0) {
             return false;
+        }
+
+        // Check if the user purchased the movie
+        for (Movie moviePurchased : purchasedMovies) {
+            if (Objects.equals(moviePurchased.getName(), movie.getName())) {
+                return false;
+            }
         }
 
         tokensCount = tokensCount - 2;

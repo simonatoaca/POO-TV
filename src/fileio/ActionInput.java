@@ -3,6 +3,7 @@ package fileio;
 import actionutils.Filter;
 import lombok.Getter;
 import lombok.Setter;
+import movies.Movie;
 import users.Credentials;
 
 @Getter
@@ -18,6 +19,6 @@ public final class ActionInput {
     private int rate;
     private Filter filters;
     private String subscribedGenre;
-    private String addedMovie;
+    private Movie addedMovie;
     private String deletedMovie;
 }

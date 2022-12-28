@@ -44,10 +44,10 @@ public final class ActionFactory {
                 return new RateAction(action);
             }
             case "add" -> {
-                return new AddMovieAction();
+                return new AddMovieAction(action);
             }
             case "delete" -> {
-                return new DeleteMovieAction();
+                return new DeleteMovieAction(action);
             }
             default -> {
                 return null;

@@ -136,6 +136,10 @@ public final class Test {
         for (final File testFile : Objects.requireNonNull(TEST_INPUTS_FILE.listFiles())) {
             String testFileName = testFile.getName();
 
+            if (!testFileName.contains("basic_4.json")) {
+                continue;
+            }
+
             preTestCleanUp();
 
             final String[] testArgv = createTestArgv(testFile);

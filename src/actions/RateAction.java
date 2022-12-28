@@ -42,8 +42,18 @@ public class RateAction extends Action {
             }
         }
 
+        boolean movieWasRated = false;
+        for (Movie movieRated : currentUser.getRatedMovies()) {
+            if (Objects.equals(movieRated.getName(), movie.getName())) {
+                movieWasRated = true;
+                break;
+            }
+        }
+
         if (movieWasWatched && this.getRate() <= MAX_RATING && this.getRate() >= MIN_RATING) {
-            currentUser.getRatedMovies().add(movie);
+            if (!movieWasRated) {
+                currentUser.getRatedMovies().add(movie);
+            }
             movie.addRating(this.getRate());
             OutputWriter.addToOutput(new Output());
             return;

@@ -2,6 +2,7 @@ package webpages;
 
 import actions.Action;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +20,10 @@ public class HomepageAuthorized extends Page {
     @Override
     public void accept(final Action action) throws JsonProcessingException {
         action.execute(this);
+    }
+
+    @Override
+    public String getPageName() {
+        return "homepage auth";
     }
 }

@@ -36,6 +36,7 @@ public class RegisterAction extends Action {
                         new PremiumUser(credentials));
             }
 
+            StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
             StreamingService.setCurrentPage(new HomepageAuthorized());
             StreamingService.setCurrentUser(database.getUser(credentials.getName()));
             OutputWriter.addToOutput(new Output());
