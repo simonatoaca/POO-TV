@@ -22,11 +22,13 @@ public class LikeAction extends Action {
      * The user likes the current movie on see details page
      * (only if he/she already watched it)
      */
+    @Override
     public void execute(final SeeDetails page)
             throws JsonProcessingException {
+        System.out.println("[LIKE]");
         User currentUser = StreamingService.getCurrentUser();
 
-        if (currentUser == null || this.movie == null) {
+        if (currentUser == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
@@ -49,9 +51,11 @@ public class LikeAction extends Action {
             }
         }
 
-        if (movieWasWatched && !movieWasLiked) {
-            currentUser.getLikedMovies().add(movie);
-            movie.incrementNumLikes();
+        if (movieWasWatched) {
+            if (!movieWasLiked) {
+                currentUser.getLikedMovies().add(movie);
+                movie.incrementNumLikes();
+            }
             OutputWriter.addToOutput(new Output());
             return;
         }

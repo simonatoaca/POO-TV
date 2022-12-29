@@ -87,7 +87,7 @@ public class GoBackAction extends Action {
         moviesAvailable.removeIf(movie -> movie.getCountriesBanned()
                 .contains(userCountry));
 
-        StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
+//        StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
         StreamingService.setCurrentPage(nextPage);
         StreamingService.setCurrentMovieList(moviesAvailable);
         OutputWriter.addToOutput(new Output());
@@ -111,14 +111,12 @@ public class GoBackAction extends Action {
         }
 
         if ((Objects.equals(previousPage.getPageName(), "login")
-                || Objects.equals(previousPage.getPageName(), "register"))) {
-            System.out.println("back to login/register");
-//            StreamingService.setCurrentPage(new HomepageUnauthorized());
+                || Objects.equals(previousPage.getPageName(), "register")
+                || Objects.equals(previousPage.getPageName(), "homepage unauth"))) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }
 
-        StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
         StreamingService.setCurrentPage(previousPage);
     }
 

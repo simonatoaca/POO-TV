@@ -23,7 +23,6 @@ public class User implements Observer {
     protected List<Movie> watchedMovies;
     protected List<Movie> likedMovies;
     protected List<Movie> ratedMovies;
-
     protected List<Notification> notifications;
 
     @JsonIgnore
@@ -73,6 +72,10 @@ public class User implements Observer {
 
         for (Movie movie : user.getRatedMovies()) {
             this.ratedMovies.add(new Movie(movie));
+        }
+
+        for (Notification notification : user.getNotifications()) {
+            this.notifications.add(new Notification(notification.getMovieName(), notification.getMessage()));
         }
     }
 
@@ -124,6 +127,7 @@ public class User implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println("User " + credentials.getName() + " was notified");
         Notification newNotification = (Notification) arg;
 
         if (Objects.equals(newNotification.getMessage(), Notification.DELETE)) {
@@ -142,11 +146,6 @@ public class User implements Observer {
         // Check if the movie is available to the user / the genre is one of the movie's genres
         if (movie.getCountriesBanned().contains(getCredentials().getCountry())
             || getSubscribedGenres().stream().noneMatch(movie.getGenres()::contains)) {
-            try {
-                OutputWriter.addToOutput(new Output("Error"));
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
             return;
         }
 

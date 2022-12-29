@@ -26,17 +26,16 @@ public class ChangePageAction extends Action {
      */
     private void handleSeeDetails(final Page nextPage)
             throws JsonProcessingException {
-        // Movie to "see details" on
-        Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
 
-        // Get the available movies
-        List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getMovieList());
         if (StreamingService.getCurrentUser() == null) {
             return;
         }
 
-        String userCountry = StreamingService.getCurrentUser().getCredentials().getCountry();
-        moviesAvailable.removeIf(movie -> movie.getCountriesBanned().contains(userCountry));
+        // Movie to "see details" on
+        Movie movieToBeSeen = Database.getInstance().getMovie(this.movie);
+
+        // Get the available movies
+        List<Movie> moviesAvailable = new ArrayList<>(StreamingService.getCurrentMovieList());
 
         // If the movie is available show it
         if (moviesAvailable.contains(movieToBeSeen)) {

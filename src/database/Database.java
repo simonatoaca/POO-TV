@@ -6,6 +6,7 @@ import fileio.OutputWriter;
 import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
+import streamingservice.StreamingService;
 import users.Notification;
 import users.User;
 import webpages.*;
@@ -64,7 +65,9 @@ public final class Database extends Observable {
             return;
         }
 
+        System.out.println("PUT MOVIE INTO DATABASE " + movie.getName());
         movies.put(movie.getName(), movie);
+        StreamingService.getMovieList().add(movie);
         setChanged();
 
         notifyObservers(new Notification(movie.getName(), Notification.ADD));
