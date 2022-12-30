@@ -6,13 +6,23 @@ import fileio.Output;
 import fileio.OutputWriter;
 import movies.Movie;
 import streamingservice.StreamingService;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.Login;
+import webpages.MoviePage;
+import webpages.Page;
+import webpages.Register;
+import webpages.SeeDetails;
+import webpages.Upgrades;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class GoBackAction extends Action {
+    /**
+     * Performs the action of turning back to the
+     * previous page.
+     */
     public void execute()
             throws JsonProcessingException {
         if (StreamingService.getCurrentUser() == null) {

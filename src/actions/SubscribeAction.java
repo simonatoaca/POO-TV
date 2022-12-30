@@ -16,6 +16,10 @@ public class SubscribeAction extends Action {
         genre = action.getSubscribedGenre();
     }
 
+    /**
+     * {@inheritDoc}:
+     * The current user subscribes to one of the genres of the current movie
+     */
     @Override
     public void execute(final SeeDetails page)
             throws JsonProcessingException {

@@ -20,6 +20,9 @@ public class Upgrades extends Page {
         action.execute(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPageName() {
         return "upgrades";

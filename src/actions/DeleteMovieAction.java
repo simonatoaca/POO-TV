@@ -3,8 +3,13 @@ package actions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import database.Database;
 import fileio.ActionInput;
-import movies.Movie;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.HomepageUnauthorized;
+import webpages.Login;
+import webpages.MoviePage;
+import webpages.Register;
+import webpages.SeeDetails;
+import webpages.Upgrades;
 
 public class DeleteMovieAction extends Action {
     private final String deletedMovie;
@@ -12,6 +17,9 @@ public class DeleteMovieAction extends Action {
         deletedMovie = action.getDeletedMovie();
     }
 
+    /**
+     * Helper function that deletes a movie from the database
+     */
     public void execute()
             throws JsonProcessingException {
         Database.getInstance().deleteMovie(deletedMovie);

@@ -55,6 +55,9 @@ public class PremiumUser extends User {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void getRefund() {
         numFreePremiumMovies++;

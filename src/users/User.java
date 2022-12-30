@@ -7,7 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
+
 
 @Getter
 @Setter
@@ -72,7 +77,8 @@ public class User implements Observer {
         }
 
         for (Notification notification : user.getNotifications()) {
-            this.notifications.add(new Notification(notification.getMovieName(), notification.getMessage()));
+            this.notifications.add(new Notification(notification.getMovieName(),
+                    notification.getMessage()));
         }
     }
 
@@ -117,20 +123,36 @@ public class User implements Observer {
         return new PremiumUser(this);
     }
 
+    /**
+     * When a movie is deleted from the database,
+     * the user is refunded the cost of the movie.
+     */
     protected void getRefund() {
         // Basic refund for standard users
         tokensCount += 2;
     }
 
+    /**
+     * When the user is notified of a modification to the database,
+     * a notification is added to the list if the modification
+     * concerns the user.
+     * @param o     the observable object.
+     * @param arg   an argument passed to the {@code notifyObservers}
+     *                 method.
+     */
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         Notification newNotification = (Notification) arg;
 
         if (Objects.equals(newNotification.getMessage(), Notification.DELETE)) {
-            purchasedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
-            likedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
-            ratedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
-            watchedMovies.removeIf(movie -> Objects.equals(movie.getName(), newNotification.getMovieName()));
+            purchasedMovies.removeIf(movie -> Objects.equals(movie.getName(),
+                    newNotification.getMovieName()));
+            likedMovies.removeIf(movie -> Objects.equals(movie.getName(),
+                    newNotification.getMovieName()));
+            ratedMovies.removeIf(movie -> Objects.equals(movie.getName(),
+                    newNotification.getMovieName()));
+            watchedMovies.removeIf(movie -> Objects.equals(movie.getName(),
+                    newNotification.getMovieName()));
 
             getRefund();
             notifications.add(newNotification);

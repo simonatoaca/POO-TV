@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import fileio.ActionInput;
 import streamingservice.StreamingService;
 import users.User;
-import webpages.*;
+import webpages.Upgrades;
 
 public class BuyTokensAction extends Action {
     public BuyTokensAction(final ActionInput action) {

@@ -7,7 +7,7 @@ import fileio.OutputWriter;
 import movies.Movie;
 import streamingservice.StreamingService;
 import users.User;
-import webpages.*;
+import webpages.SeeDetails;
 
 import java.util.Objects;
 

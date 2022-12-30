@@ -9,7 +9,10 @@ import streamingservice.StreamingService;
 import users.Credentials;
 import users.PremiumUser;
 import users.StandardUser;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.HomepageUnauthorized;
+import webpages.Register;
+
 import java.util.Objects;
 
 public class RegisterAction extends Action {

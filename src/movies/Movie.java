@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import streamingservice.StreamingService;
-import users.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +83,11 @@ public class Movie {
         this.rating = (double) totalScore / (double) numRatings;
     }
 
+    /**
+     * Custom getter for JSON output.
+     * Gets the year as string, not int.
+     * @return the year
+     */
     @JsonGetter("year")
     public String getYear() {
         return Integer.toString(year);

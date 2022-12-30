@@ -8,7 +8,7 @@ import fileio.OutputWriter;
 import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
-import recommendations.Recommendation;
+import recommendations.RecommendationGenerator;
 import users.Notification;
 import users.User;
 import webpages.HomepageUnauthorized;
@@ -78,7 +78,6 @@ public final class StreamingService {
         List<Action> actions = inputHandler.getActions();
         movieList = new ArrayList<>(inputHandler.getInput().getMovies());
 
-//        StreamingService.outputFileName = inputFileName.replace("in", "out");
         OutputWriter.config();
 
         // Handle actions
@@ -88,7 +87,8 @@ public final class StreamingService {
 
         // Give recommendations if the user is premium
         if (currentUser != null) {
-            Notification recommendation = new Recommendation(currentUser).getRecommendation();
+            Notification recommendation = new RecommendationGenerator(currentUser)
+                    .getRecommendation();
             if (recommendation != null) {
                 // Clear movie list
                 currentMovieList = null;

@@ -6,7 +6,7 @@ import fileio.Output;
 import fileio.OutputWriter;
 import streamingservice.StreamingService;
 import users.User;
-import webpages.*;
+import webpages.SeeDetails;
 
 public class PurchaseAction extends Action {
 

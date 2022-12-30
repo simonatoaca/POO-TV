@@ -8,7 +8,9 @@ import fileio.OutputWriter;
 import streamingservice.StreamingService;
 import users.Credentials;
 import users.User;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.Login;
+import webpages.Page;
 
 import java.util.Objects;
 

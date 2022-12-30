@@ -20,5 +20,9 @@ public abstract class Page {
     public abstract void accept(Action action)
             throws JsonProcessingException;
 
+    /**
+     * Gets the name of the page.
+     * @return the string containing the page name
+     */
     public abstract String getPageName();
 }

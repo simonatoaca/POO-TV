@@ -6,7 +6,8 @@ import fileio.Output;
 import fileio.OutputWriter;
 import movies.Movie;
 import streamingservice.StreamingService;
-import webpages.*;
+import webpages.MoviePage;
+
 import java.util.List;
 
 public class SearchAction extends Action {

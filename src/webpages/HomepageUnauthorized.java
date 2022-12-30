@@ -19,6 +19,9 @@ public class HomepageUnauthorized extends Page {
         action.execute(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPageName() {
         return "homepage unauth";

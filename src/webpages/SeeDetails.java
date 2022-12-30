@@ -22,6 +22,9 @@ public class SeeDetails extends Page {
         action.execute(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPageName() {
         return "see details";

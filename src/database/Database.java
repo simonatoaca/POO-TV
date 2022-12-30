@@ -9,7 +9,15 @@ import movies.Movie;
 import streamingservice.StreamingService;
 import users.Notification;
 import users.User;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.HomepageUnauthorized;
+import webpages.Login;
+import webpages.Logout;
+import webpages.MoviePage;
+import webpages.Page;
+import webpages.Register;
+import webpages.SeeDetails;
+import webpages.Upgrades;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -60,6 +68,11 @@ public final class Database extends Observable {
         return movies.get(name);
     }
 
+    /**
+     * Adds a new movie to the database if it does not already exist.
+     * Notifies observers of this action.
+     * @param movie the new movie
+     */
     public void addMovie(final Movie movie) throws JsonProcessingException {
         if (getMovies().containsKey(movie.getName())) {
             OutputWriter.addToOutput(new Output("Error"));
@@ -73,6 +86,11 @@ public final class Database extends Observable {
         notifyObservers(new Notification(movie.getName(), Notification.ADD));
     }
 
+    /**
+     * Deletes a movie from the database if it exists.
+     * Notifies observers of this action.
+     * @param movie movie to be deleted
+     */
     public void deleteMovie(final String movie) throws JsonProcessingException {
         if (!getMovies().containsKey(movie)) {
             OutputWriter.addToOutput(new Output("Error"));

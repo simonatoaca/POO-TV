@@ -11,7 +11,7 @@ public final class ActionFactory {
      * @param action the action input
      * @return the action specified by the "feature" field
      */
-    private static Action getActionByFeature(ActionInput action) {
+    private static Action getActionByFeature(final ActionInput action) {
         switch (action.getFeature()) {
             case "login" -> {
                 return new LoginAction(action);

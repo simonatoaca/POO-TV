@@ -14,6 +14,9 @@ public class Login extends Page {
         action.execute(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPageName() {
         return "login";

@@ -7,7 +7,15 @@ import fileio.Output;
 import fileio.OutputWriter;
 import movies.Movie;
 import streamingservice.StreamingService;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.HomepageUnauthorized;
+import webpages.Login;
+import webpages.Logout;
+import webpages.MoviePage;
+import webpages.Page;
+import webpages.Register;
+import webpages.SeeDetails;
+import webpages.Upgrades;
 
 import java.util.ArrayList;
 import java.util.List;

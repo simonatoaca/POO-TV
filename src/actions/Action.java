@@ -8,7 +8,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import users.Credentials;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.HomepageUnauthorized;
+import webpages.Login;
+import webpages.Logout;
+import webpages.MoviePage;
+import webpages.Register;
+import webpages.SeeDetails;
+import webpages.Upgrades;
 
 @Getter
 @Setter

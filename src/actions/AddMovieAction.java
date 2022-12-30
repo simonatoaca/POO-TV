@@ -4,7 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import database.Database;
 import fileio.ActionInput;
 import movies.Movie;
-import webpages.*;
+import webpages.HomepageAuthorized;
+import webpages.HomepageUnauthorized;
+import webpages.Login;
+import webpages.MoviePage;
+import webpages.Register;
+import webpages.SeeDetails;
+import webpages.Upgrades;
 
 public class AddMovieAction extends Action {
 
@@ -13,6 +19,9 @@ public class AddMovieAction extends Action {
         addedMovie = action.getAddedMovie();
     }
 
+    /**
+     * Helper function that ads a new movie to the database
+     */
     public void execute()
             throws JsonProcessingException {
         Database.getInstance().addMovie(addedMovie);

@@ -4,7 +4,7 @@ import database.Database;
 import streamingservice.StreamingService;
 import users.PremiumUser;
 import users.User;
-import webpages.*;
+import webpages.Upgrades;
 
 public class BuyPremiumAccAction extends Action {
 
