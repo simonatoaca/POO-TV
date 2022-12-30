@@ -1,10 +1,7 @@
 package users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import database.Database;
-import fileio.Output;
-import fileio.OutputWriter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -127,7 +124,6 @@ public class User implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("User " + credentials.getName() + " was notified");
         Notification newNotification = (Notification) arg;
 
         if (Objects.equals(newNotification.getMessage(), Notification.DELETE)) {

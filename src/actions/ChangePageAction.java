@@ -96,7 +96,6 @@ public class ChangePageAction extends Action {
      */
     public void execute(final Page page)
             throws JsonProcessingException {
-        System.out.println("[CHANGE PAGE] " + this.page);
         if (page.getSubPages() == null) {
             return;
         }

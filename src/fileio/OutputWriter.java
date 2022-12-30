@@ -35,12 +35,16 @@ public final class OutputWriter {
         ObjectNode objectNode = objectMapper.createObjectNode();
         objectNode.put("error", outputObject.getError());
 
-        ArrayNode currentMoviesList = objectMapper.createArrayNode();
-        for (Movie movie : outputObject.getCurrentMoviesList()) {
-            currentMoviesList.addPOJO(new Movie(movie));
-        }
+        if (outputObject.getCurrentMoviesList() == null) {
+            objectNode.putPOJO("currentMoviesList", null);
+        } else {
+            ArrayNode currentMoviesList = objectMapper.createArrayNode();
+            for (Movie movie : outputObject.getCurrentMoviesList()) {
+                currentMoviesList.addPOJO(new Movie(movie));
+            }
 
-        objectNode.putPOJO("currentMoviesList", currentMoviesList);
+            objectNode.putPOJO("currentMoviesList", currentMoviesList);
+        }
 
         User user = null;
         if (outputObject.getCurrentUser() != null) {

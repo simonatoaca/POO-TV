@@ -3,14 +3,16 @@ package streamingservice;
 import actions.Action;
 import database.Database;
 import fileio.InputHandler;
+import fileio.Output;
 import fileio.OutputWriter;
 import lombok.Getter;
 import lombok.Setter;
 import movies.Movie;
+import recommendations.Recommendation;
+import users.Notification;
 import users.User;
 import webpages.HomepageUnauthorized;
 import webpages.Page;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +78,23 @@ public final class StreamingService {
         List<Action> actions = inputHandler.getActions();
         movieList = new ArrayList<>(inputHandler.getInput().getMovies());
 
-        StreamingService.outputFileName = inputFileName.replace("in", "out");
+//        StreamingService.outputFileName = inputFileName.replace("in", "out");
         OutputWriter.config();
 
         // Handle actions
         for (Action action : actions) {
             currentPage.accept(action);
+        }
+
+        // Give recommendations if the user is premium
+        if (currentUser != null) {
+            Notification recommendation = new Recommendation(currentUser).getRecommendation();
+            if (recommendation != null) {
+                // Clear movie list
+                currentMovieList = null;
+                currentUser.getNotifications().add(recommendation);
+                OutputWriter.addToOutput(new Output());
+            }
         }
 
         // Write output

@@ -11,6 +11,7 @@ import users.Notification;
 import users.User;
 import webpages.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Observable;
 
@@ -24,8 +25,8 @@ public final class Database extends Observable {
     private static Map<String, Page> pages;
 
     private Database() {
-        users = new HashMap<>();
-        movies  = new HashMap<>();
+        users = new LinkedHashMap<>();
+        movies  = new LinkedHashMap<>();
     }
 
     /**
@@ -65,7 +66,6 @@ public final class Database extends Observable {
             return;
         }
 
-        System.out.println("PUT MOVIE INTO DATABASE " + movie.getName());
         movies.put(movie.getName(), movie);
         StreamingService.getMovieList().add(movie);
         setChanged();

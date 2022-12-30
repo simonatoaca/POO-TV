@@ -25,7 +25,6 @@ public class LikeAction extends Action {
     @Override
     public void execute(final SeeDetails page)
             throws JsonProcessingException {
-        System.out.println("[LIKE]");
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null) {

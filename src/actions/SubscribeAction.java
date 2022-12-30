@@ -19,7 +19,6 @@ public class SubscribeAction extends Action {
     @Override
     public void execute(final SeeDetails page)
             throws JsonProcessingException {
-        System.out.println("[SUBSCRIBE]");
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null) {
@@ -29,7 +28,6 @@ public class SubscribeAction extends Action {
 
         // If the current movie does not have the genre the user wants to subscribe to
         if (!page.getMovie().getGenres().contains(genre)) {
-            System.out.println("Not a valid genre");
             OutputWriter.addToOutput(new Output("Error"));
             return;
         }

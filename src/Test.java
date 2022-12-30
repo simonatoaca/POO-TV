@@ -136,9 +136,9 @@ public final class Test {
         for (final File testFile : Objects.requireNonNull(TEST_INPUTS_FILE.listFiles())) {
             String testFileName = testFile.getName();
 
-            if (!testFileName.contains("basic_10.json")) {
-                continue;
-            }
+//            if (!testFileName.contains("basic_6.json")) {
+//                continue;
+//            }
 
             preTestCleanUp();
 

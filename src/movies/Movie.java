@@ -70,13 +70,13 @@ public class Movie {
      * @param rating the rating added
      */
     public void addRating(final int rating) {
-        String currentUser = StreamingService.getCurrentUser().getCredentials().getName();
+        String currentUser = StreamingService.getCurrentUser()
+                            .getCredentials().getName();
 
         if (!userRatings.containsKey(currentUser)) {
             userRatings.put(currentUser, rating);
             numRatings++;
         } else {
-            System.out.println("Already rated");
             totalScore -= userRatings.get(currentUser);
         }
 

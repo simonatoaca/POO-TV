@@ -15,8 +15,6 @@ import java.util.Objects;
 public class GoBackAction extends Action {
     public void execute()
             throws JsonProcessingException {
-        System.out.println("[BACK]");
-
         if (StreamingService.getCurrentUser() == null) {
             OutputWriter.addToOutput(new Output("Error"));
             return;
@@ -28,7 +26,6 @@ public class GoBackAction extends Action {
         }
 
         Page previousPage = StreamingService.getPageHistory().remove(0);
-        System.out.println(" to " + previousPage.getPageName());
 
         changePage(previousPage);
     }
@@ -87,7 +84,6 @@ public class GoBackAction extends Action {
         moviesAvailable.removeIf(movie -> movie.getCountriesBanned()
                 .contains(userCountry));
 
-//        StreamingService.getPageHistory().add(0, StreamingService.getCurrentPage());
         StreamingService.setCurrentPage(nextPage);
         StreamingService.setCurrentMovieList(moviesAvailable);
         OutputWriter.addToOutput(new Output());

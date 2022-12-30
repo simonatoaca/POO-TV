@@ -22,7 +22,6 @@ public class WatchAction extends Action {
      * (only if he/she already purchased it)
      */
     public void execute(final SeeDetails page) throws JsonProcessingException {
-        System.out.println("[WATCH]");
         User currentUser = StreamingService.getCurrentUser();
 
         if (currentUser == null || page.getMovie() == null) {
